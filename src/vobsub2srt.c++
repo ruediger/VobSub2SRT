@@ -2,8 +2,11 @@
 // MPlayer stuff
 #include "mp_msg.h" // mplayer message framework
 #include "vobsub.h"
+#include "spudec.h"
 
 #include <iostream>
+#include <cstdio>
+#include <string>
 using namespace std;
 
 typedef void* vob_t;
@@ -23,13 +26,32 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  void *data;
-  int timestamp;
-  while(vobsub_get_next_packet(vob, &data, &timestamp) != -1) {
-    // spdec_assemble, spudec_draw ...
-    // tesseract
-    
+  string srt_filename = argv[0];
+  srt_filename += ".srt";
+  FILE *srtout = fopen(srt_filename.c_str(), "w");
+  if(not srtout) {
+    perror("could not open .srt file");
   }
 
+  void *packet;
+  int timestamp; // pts100
+  int len;
+  unsigned sub_counter = 1;
+  while( (len = vobsub_get_next_packet(vob, &packet, &timestamp)) > 0) {
+    if(timestamp >= 0) {
+      spudec_assemble(spu, reinterpret_cast<unsigned char*>(packet), len, timestamp);
+      // spudec_draw ...
+      // tesseract
+#if 0
+      fprintf(srtout, "%u\n%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d\n%s\n\n", sub_counter
+              //00:02:26,407 --> 00:02:31,356
+              );
+#endif
+      ++sub_counter;
+    }
+  }
+
+  fclose(srtout);
   vobsub_close(vob);
+  spudec_free(spu);
 }
