@@ -52,7 +52,22 @@ std::string pts2srt(unsigned pts) {
   return std::string(buf);
 }
 
+/// Dumps the image data to <subtitlename>-<subtitleid>.pgm in Netbpm PGM format
+void dump_pgm(char const *filename, unsigned counter, unsigned width, unsigned height,
+              unsigned char const *image, size_t image_size) {
+  char buf[50];
+  snprintf(buf, sizeof(buf), "%s-%u.pgm", filename, counter);
+  FILE *pgm = fopen(buf, "wb");
+  if(pgm) {
+    fprintf(pgm, "P5\n%u %u %u\n", width, height, 255u);
+    fwrite(image, 1, image_size, pgm);
+    fclose(pgm);
+  }
+}
+
 int main(int argc, char **argv) {
+  bool dump_images = false;
+
   // Handle cmd arguments
   if(argc < 2 or argc > 3) {
     cerr << "usage: " << argv[0] << " <subname> [<ifo>]\n\n\t<subname> ... without .idx/.sub suffix.\n\t<ifo> ... optional path to ifo file\n";
@@ -100,14 +115,8 @@ int main(int argc, char **argv) {
       cout << "end_pts: " << end_pts << " -> " << pts2srt(end_pts) << endl; // DEBUG
       cout << "width: " << width << " height: " << height << " stride: " << stride << " size: " << image_size << endl; // DEBUG
 
-      // DEBUG: write the image data to <subtitlename>-<subtitleid>.pgm in Netbpm PGM format
-      char buf[50];
-      snprintf(buf, sizeof(buf), "%s-%u.pgm", argv[1], sub_counter);
-      FILE *pgm = fopen(buf, "wb");
-      if(pgm) {
-        fprintf(pgm, "P5\n%u %u %u\n", width, height, 255u);
-        fwrite(image, 1, image_size, pgm);
-        fclose(pgm);
+      if(dump_images) {
+        dump_pgm(argv[1], sub_counter, width, height, image, image_size);
       }
 
       char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
@@ -124,6 +133,7 @@ int main(int argc, char **argv) {
 
   TessBaseAPI::End();
   fclose(srtout);
+  cout << "Wrote Subtitles to '" << srt_filename << "'\n";
   vobsub_close(vob);
   spudec_free(spu);
 }
