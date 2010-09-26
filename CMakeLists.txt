@@ -51,6 +51,7 @@ set(CMAKE_C_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 # TODO RelWithDebInfo MinSizeRel? maybe move -march=native -ffast-math etc. to a different build type
 
 find_package(Libavutil)
+find_package(Tesseract)
 
 add_subdirectory(mplayer)
 add_subdirectory(src)
