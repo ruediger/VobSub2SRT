@@ -1130,7 +1130,7 @@ int vobsub_get_index_by_id(void *vobhandle, int id)
     return j;
 }
 
-int vobsub_set_from_lang(void *vobhandle, unsigned char * lang)
+int vobsub_set_from_lang(void *vobhandle, char const *lang)
 {
     int i;
     vobsub_t *vob= vobhandle;

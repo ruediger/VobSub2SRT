@@ -49,7 +49,7 @@ void *vobsub_out_open(const char *basename, const unsigned int *palette, unsigne
 void vobsub_out_output(void *me, const unsigned char *packet, int len, double pts);
 void vobsub_out_close(void *me);
 #endif
-int vobsub_set_from_lang(void *vobhandle, unsigned char * lang);
+int vobsub_set_from_lang(void *vobhandle, char const *lang); // R: changed lang from unsigned char*
 void vobsub_seek(void * vobhandle, float pts);
 
 #ifdef __cplusplus
