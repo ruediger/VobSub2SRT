@@ -291,6 +291,15 @@ int main(int argc, char **argv) {
       }
     }
   }
+  else if(vobsub_id >= 0) { // try to set correct tesseract lang for default stream
+    char const *const lang1 = vobsub_get_id(vob, vobsub_id);
+    if(lang1) {
+      char const *const lang3 = iso639_1_to_639_3(lang1);
+      if(lang3) {
+        tess_lang = lang3;
+      }
+    }
+  }
 
   // Init Tesseract
   TessBaseAPI::SimpleInit("/usr/share/tesseract-ocr/tessdata", tess_lang, false); // TODO params
