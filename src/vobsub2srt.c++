@@ -235,12 +235,17 @@ private:
   bool handle_help;
 };
 
+#ifndef TESSERACT_DATA_PATH
+#define TESSERACT_DATA_PATH "/usr/share/tesseract-ocr/tessdata" // TODO check this in cmake
+#endif
+
 int main(int argc, char **argv) {
   bool dump_images = false;
   bool verb = false;
   std::string ifo_file;
   std::string subname;
   std::string lang;
+  std::string tesseract_data_path = TESSERACT_DATA_PATH;
 
   {
     cmd_options opts;
@@ -249,6 +254,7 @@ int main(int argc, char **argv) {
       add_option("verbose", verb, "extra verbosity").
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
       add_option("lang", lang, "language to select", 'l').
+      add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
     if(not opts.parse_cmd(argc, argv) or subname.empty()) {
       return 1;
@@ -302,7 +308,7 @@ int main(int argc, char **argv) {
   }
 
   // Init Tesseract
-  TessBaseAPI::SimpleInit("/usr/share/tesseract-ocr/tessdata", tess_lang, false); // TODO params
+  TessBaseAPI::SimpleInit(tesseract_data_path.c_str(), tess_lang, false); // TODO params
 
   // Open srt output file
   string const srt_filename = subname + ".srt";
