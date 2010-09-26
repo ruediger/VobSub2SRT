@@ -262,7 +262,7 @@ int main(int argc, char **argv) {
   spu_t spu;
   vob_t vob = vobsub_open(subname.c_str(), ifo_file.empty() ? 0x0 : ifo_file.c_str(), 1, &spu);
   if(not vob) {
-    cerr << "Couldn't open VobSub\n";
+    cerr << "Couldn't open VobSub files '" << subname << ".idx/.sub'\n";
     return 1;
   }
 
