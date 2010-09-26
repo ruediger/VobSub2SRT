@@ -245,7 +245,7 @@ int main(int argc, char **argv) {
   {
     cmd_options opts;
     opts.
-      add_option("dump_images", dump_images, "dump subtitles as image files (<subname>-<number>.pgm).").
+      add_option("dump-images", dump_images, "dump subtitles as image files (<subname>-<number>.pgm).").
       add_option("verbose", verb, "extra verbosity").
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
       add_option("lang", lang, "language to select", 'l').
