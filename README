@@ -1,0 +1,30 @@
+VobSub2SRT is a simple command line program to convert .idx/.sub subtitles into .srt text subtitles by using OCR. It is based on code from the MPlayer project (http://www.mplayerhq.hu) - a really really great movie player. Tesseract (http://code.google.com/p/tesseract-ocr/) is used as OCR software.
+
+vobsub2srt is released under the GPL3+ license. The mplayer code included is GPL2+ licensed.
+
+Currently the OCR results are more or less useless. But this should improve with correct preprocessing.
+
+* Building
+You need tesseract and libavutil (part of the ffmpeg project). You also need cmake and a gcc to build it. With Ubuntu 10.04 you can install the dependencies with
+
+  sudo apt-get install libavutil-dev tesseract-ocr-dev tesseract-ocr-eng build-essential cmake
+
+You should also install the tesseract data for the languages you want to use (currently only english is supported). vobsub2srt can be build by using
+
+  ./configure
+  make
+  sudo make install
+
+This should install the program vobsub2srt to /usr/local/bin. You can uninstall vobsub2srt with "sudo make uninstall".
+
+* Usage
+vobsub2srt converts subtitles in VobSub (.idx/.sub) format into subtitles in .srt format. VobSub subtitles consist of two or three files called Filename.idx, Filename.sub and optional Filename.ifo. To convert subtitles simply call
+
+  vobsub2srt Filename
+
+with Filename being the filename of the subtitle files WITHOUT the extension (.idx/.sub). vobsub2srt writes the subtitles to a file called Filename.srt.
+
+* To Do
+- implement preprocessing (first step scaling. Code available in spudec.c)
+- implement support for indices (languages)
+- add more cmd options and parse them properly
