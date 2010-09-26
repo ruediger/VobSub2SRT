@@ -1453,3 +1453,17 @@ void spudec_set_paletted(void *this, const uint8_t *pal_img, int pal_stride,
     packet->end_pts = endpts * 90000;
   spudec_queue_packet(spu, packet);
 }
+
+// R: added to extract data
+void spudec_get_data(void *this, const unsigned char **image, size_t *image_size, unsigned *width, unsigned *height,
+                     unsigned *stride, unsigned *start_pts, unsigned *end_pts)
+{
+  spudec_handle_t *spu = this;
+  *image = spu->image;
+  *image_size = spu->image_size;
+  *width = spu->width;
+  *height = spu->height;
+  *stride = spu->stride;
+  *start_pts = spu->start_pts;
+  *end_pts = spu->end_pts;
+}

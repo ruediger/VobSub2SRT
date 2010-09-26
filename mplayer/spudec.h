@@ -21,6 +21,7 @@
 
 //#include "libvo/video_out.h"
 #include <stdint.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,6 +47,9 @@ void spudec_set_paletted(void *self, const uint8_t *pal_img, int stride,
                          const void *palette,
                          int x, int y, int w, int h,
                          double pts, double endpts);
+/// call this after spudec_assemble and spudec_heartbeat to get the packet data
+void spudec_get_data(void *self, const unsigned char **image, size_t *image_size, unsigned *width, unsigned *height,
+                     unsigned *stride, unsigned *start_pts, unsigned *end_pts);
 
 #ifdef __cplusplus
 }
