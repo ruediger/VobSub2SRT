@@ -7,7 +7,9 @@ include_directories(${Tesseract_INCLUDE_DIR})
 set(vobsub2srt_sources
   vobsub2srt.c++
   langcodes.h++
-  langcodes.c++)
+  langcodes.c++
+  cmd_options.h++
+  cmd_options.c++)
 
 add_executable(vobsub2srt ${vobsub2srt_sources})
 target_link_libraries(vobsub2srt mplayer ${Libavutil_LIBRARIES} ${Tesseract_LIBRARIES})
