@@ -112,7 +112,7 @@ struct cmd_options {
           help(argv[0]);
           continue;
         }
-        for(std::vector<option>::const_iterator j = options.begin(); j != options.end(); ++i) {
+        for(std::vector<option>::const_iterator j = options.begin(); j != options.end(); ++j) {
           if(strcmp(argv[i]+offset, j->name) == 0 or
              (j->short_name != '\0' and argv[i][offset+1] == j->short_name and argv[i][offset+1] == '\0')) {
             if(j->type == option::Bool) {
