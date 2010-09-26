@@ -1,3 +1,22 @@
+/*
+ *  VobSub2SRT is a simple command line program to convert .idx/.sub subtitles
+ *  into .srt text subtitles by using OCR (tesseract). See README.
+ *
+ *  Copyright (C) 2010 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 // MPlayer stuff
 #include "mp_msg.h" // mplayer message framework
@@ -81,7 +100,7 @@ int main(int argc, char **argv) {
       cout << "end_pts: " << end_pts << " -> " << pts2srt(end_pts) << endl; // DEBUG
       cout << "width: " << width << " height: " << height << " stride: " << stride << " size: " << image_size << endl; // DEBUG
 
-      // DEBUG:
+      // DEBUG: write the image data to <subtitlename>-<subtitleid>.pgm in Netbpm PGM format
       char buf[50];
       snprintf(buf, sizeof(buf), "%s-%u.pgm", argv[1], sub_counter);
       FILE *pgm = fopen(buf, "wb");
@@ -91,7 +110,7 @@ int main(int argc, char **argv) {
         fclose(pgm);
       }
 
-      char *text = TessBaseAPI::TesseractRect(image, 8, stride, 0, 0, width, height);
+      char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
       if(not text) {
         cerr << "OCR failed\n";
         continue;
@@ -103,6 +122,7 @@ int main(int argc, char **argv) {
     }
   }
 
+  TessBaseAPI::End();
   fclose(srtout);
   vobsub_close(vob);
   spudec_free(spu);
