@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-extern int vobsub_id; // moved from mpcommon.h
+extern int vobsub_id; // R: moved from mpcommon.h
 
 void *vobsub_open(const char *subname, const char *const ifo, const int force, void** spu);
 void vobsub_reset(void *vob);
@@ -44,7 +44,7 @@ unsigned int vobsub_palette_to_yuv(unsigned int pal);
 /// Convert rgb value to yuv.
 unsigned int vobsub_rgb_to_yuv(unsigned int rgb);
 
-#if 0 // R no output needed
+#if 0 // R: no output needed
 void *vobsub_out_open(const char *basename, const unsigned int *palette, unsigned int orig_width, unsigned int orig_height, const char *id, unsigned int index);
 void vobsub_out_output(void *me, const unsigned char *packet, int len, double pts);
 void vobsub_out_close(void *me);
