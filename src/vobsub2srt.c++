@@ -341,7 +341,7 @@ int main(int argc, char **argv) {
 
       char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
       if(not text) {
-        cerr << "OCR failed\n";
+        cerr << "ERROR: OCR failed for " << sub_counter << '\n';
         continue;
       }
       if(verb) {
