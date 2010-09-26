@@ -344,7 +344,9 @@ int main(int argc, char **argv) {
         cerr << "OCR failed\n";
         continue;
       }
-      cout << "Text: " << text << endl; // DEBUG
+      if(verb) {
+        cout << sub_counter << " Text: " << text << endl;
+      }
       fprintf(srtout, "%u\n%s --> %s\n%s\n\n", sub_counter, pts2srt(timestamp).c_str(), pts2srt(end_pts).c_str(), text);
       delete[]text;
       ++sub_counter;
