@@ -34,6 +34,8 @@
 #include <cstring>
 using namespace std;
 
+#include "langcodes.h++"
+
 typedef void* vob_t;
 typedef void* spu_t;
 
@@ -238,6 +240,7 @@ int main(int argc, char **argv) {
   bool verb = false;
   std::string ifo_file;
   std::string subname;
+  std::string lang;
 
   {
     cmd_options opts;
@@ -245,6 +248,7 @@ int main(int argc, char **argv) {
       add_option("dump_images", dump_images, "dump subtitles as image files (<subname>-<number>.pgm).").
       add_option("verbose", verb, "extra verbosity").
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
+      add_option("lang", lang, "language to select", 'l').
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
     if(not opts.parse_cmd(argc, argv) or subname.empty()) {
       return 1;
@@ -255,9 +259,6 @@ int main(int argc, char **argv) {
   verbose = verb; // mplayer verbose level
   mp_msg_init();
 
-  // Init Tesseract
-  TessBaseAPI::SimpleInit("/usr/share/tesseract-ocr/tessdata", "eng", false); // TODO params
-
   // Open the sub/idx subtitles
   spu_t spu;
   vob_t vob = vobsub_open(subname.c_str(), ifo_file.empty() ? 0x0 : ifo_file.c_str(), 1, &spu);
@@ -265,6 +266,34 @@ int main(int argc, char **argv) {
     cerr << "Couldn't open VobSub files '" << subname << ".idx/.sub'\n";
     return 1;
   }
+
+  // Handle stream Ids and language
+  if(verbose > 0) { // TODO mplayer prints this too
+    // Print languages/indices
+    unsigned const index_count = vobsub_get_indexes_count(vob);
+    cerr << "Index Count: " << index_count << endl;
+    for(unsigned i = 0; i < index_count; ++i) {
+      int id = vobsub_get_id_by_index(vob, i);
+      cerr << "Id: " << id << " Lang: " << (id > 0 ? vobsub_get_id(vob, id) : "<no id>") << endl;
+    }
+  }
+
+  char const *tess_lang = "eng"; // default english
+  if(not lang.empty()) {
+    if(vobsub_set_from_lang(vob, lang.c_str()) < 0) {
+      cerr << "No matching language for '" << lang << "' found! (Trying to use default)\n";
+    }
+    else {
+      // convert two letter lang code into three letter lang code (required by tesseract)
+      char const *const lang3 = iso639_1_to_639_3(lang.c_str());
+      if(lang3) {
+        tess_lang = lang3;
+      }
+    }
+  }
+
+  // Init Tesseract
+  TessBaseAPI::SimpleInit("/usr/share/tesseract-ocr/tessdata", tess_lang, false); // TODO params
 
   // Open srt output file
   string const srt_filename = subname + ".srt";
