@@ -35,5 +35,7 @@ If a subtitle file contains more than one language you can use the =--lang= para
 
 If you want to dump the subtitles as images (e.g. to check for correct ocr) you can use the =--dump-images= flag.
 
+Use =--help= or read the manpage to get more information about the options of vobsub2srt.
+
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
