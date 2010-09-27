@@ -1,9 +1,9 @@
 # -*- mode:org; mode:visual-line; coding:utf-8; -*-
 VobSub2SRT is a simple command line program to convert =.idx= / =.sub= subtitles into =.srt= text subtitles by using OCR. It is based on code from the [[http://www.mplayerhq.hu][MPlayer project]] - a really really great movie player. [[http://code.google.com/p/tesseract-ocr/][Tesseract]] is used as OCR software.
 
-vobsub2srt is released under the GPL3+ license. The mplayer code included is GPL2+ licensed.
+vobsub2srt is released under the GPL3+ license. The MPlayer code included is GPL2+ licensed.
 
-Currently the OCR results are more or less useless. But this should improve with correct preprocessing.
+The quality of the OCR depends on the text in the subtitles. Currently the code does not use any preprocessing. But I'm currently looking into adding filters and scaling options to improve the OCR. You can correct mistakes in the =.srt= files with a text editor or a special subtitle editor.
 
 * Building
 You need tesseract and libavutil (part of the [[http://ffmpeg.org/][FFmpeg]] project). You also need cmake and a gcc to build it. With Ubuntu 10.04 you can install the dependencies with
@@ -29,7 +29,7 @@ vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles 
   vobsub2srt Filename
 #+END_EXAMPLE
 
-with =Filename= being the filename of the subtitle files *WITHOUT* the extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called =Filename.srt=.
+with =Filename= being the file name of the subtitle files *WITHOUT* the extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called =Filename.srt=.
 
 If a subtitle file contains more than one language you can use the =--lang= parameter to set the correct language (Use =--verbose= to find out about the languages in the file).
 
