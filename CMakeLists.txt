@@ -55,3 +55,4 @@ find_package(Tesseract)
 
 add_subdirectory(mplayer)
 add_subdirectory(src)
+add_subdirectory(doc)
