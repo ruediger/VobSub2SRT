@@ -1,0 +1,36 @@
+.TH vobsub2srt 1 "27 September 2010"
+.SH NAME
+vobsub2srt \- converts vobsub (.idx/.sub) into .srt subtitles
+.SH SYNOPSIS
+\fBvobsub2srt\fR [\fIOPTION\fR] \fIFILENAME\fR
+.SH DESCRIPTION
+.PP
+vobsub2srt converts subtitles in vobsub (.idx/.sub) format into the .srt format. VobSub subtitles contain images and srt is a text format. OCR is used to extract the text from the subtitles. vobsub2srt uses tesseract for OCR and is based on code from the MPlayer project.
+.SH OPTIONS
+.TP
+\fIFILENAME\fR
+File name of the subtitles \fBWITHOUT\fR the .idx or .sub extension. The .srt subtitles are written to a file called \fIFILENAME\fR.srt.
+.TP
+\fB\-\-dump\-images\fR
+Dump the subtitles as images (format \fIFILENAME\fR-\fINUMBER\fR.pgm in PGM format).
+.TP
+\fB\-\-verbose\fR
+Print more information about the file (e.g. subtitle languages)
+.TP
+\fB\-\-lang\fR \fIlanguage\fR
+Select the language of the subtitle (two letter ISO 639-1 code e.g. en for English or de for German). Use \fI--verbose\fR to see the languages in the subtitle file.
+.TP
+\fB\-\-ifo\fR \fIifo-file\fR
+To use a specific IFO file. Default: \fIFILENAME\fR.IFO is tried. IFO file is optional!
+.TP
+\fB\-\-tesseract-data\fR \fIpath\fR
+Set path to tesseract-data.
+.SH EXAMPLES
+.nf
+  $ \fBvobsub2srt \-\-lang en foobar\fR
+.fi
+Converts the English language subtitles from the VobSub files \fIfoobar.idx\fR/\fIfoobar.sub\fR to srt subtitles in \fIfoobar.srt\fR.
+.SH HOMEPAGE
+For more information see \fIhttp://github.com/ruediger/VobSub2SRT\fR
+.SH AUTHOR
+R\[:u]diger Sonderfeld <\fIruediger -AT- c-plusplus -DOT- de\fR>
