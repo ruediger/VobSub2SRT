@@ -29,7 +29,7 @@ vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles 
   vobsub2srt Filename
 #+END_EXAMPLE
 
-with Filename being the filename of the subtitle files *WITHOUT* the extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called =Filename.srt=.
+with =Filename= being the filename of the subtitle files *WITHOUT* the extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called =Filename.srt=.
 
 If a subtitle file contains more than one language you can use the =--lang= parameter to set the correct language (Use =--verbose= to find out about the languages in the file).
 
