@@ -155,6 +155,7 @@ int main(int argc, char **argv) {
   void *packet;
   int timestamp; // pts100
   int len;
+  unsigned last_start_pts = 0;
   unsigned sub_counter = 1;
   while( (len = vobsub_get_next_packet(vob, &packet, &timestamp)) > 0) {
     if(timestamp >= 0) {
@@ -164,6 +165,12 @@ int main(int argc, char **argv) {
       size_t image_size;
       unsigned width, height, stride, start_pts, end_pts;
       spudec_get_data(spu, &image, &image_size, &width, &height, &stride, &start_pts, &end_pts);
+
+      // skip this packet if it is another packet of a subtitle that
+      // was decoded from multiple mpeg packets.
+      if (start_pts == last_start_pts) continue;
+      last_start_pts = start_pts;
+
       if(verbose > 0 and static_cast<unsigned>(timestamp) != start_pts) {
         cerr << sub_counter << ": time stamp from .idx (" << timestamp << ") doesn't match time stamp from .sub ("
              << start_pts << ")\n";
