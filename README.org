@@ -9,7 +9,7 @@ The quality of the OCR depends on the text in the subtitles. Currently the code 
 You need tesseract and libavutil (part of the [[http://ffmpeg.org/][FFmpeg]] project). You also need cmake and a gcc to build it. With Ubuntu 10.04 you can install the dependencies with
 
 #+BEGIN_EXAMPLE
-  sudo apt-get install libavutil-dev tesseract-ocr-dev tesseract-ocr-eng build-essential cmake
+  sudo apt-get install libavutil-dev libtiff4-dev tesseract-ocr-dev tesseract-ocr-eng build-essential cmake
 #+END_EXAMPLE
 
 You should also install the tesseract data for the languages you want to use!
