@@ -90,7 +90,7 @@ cmd_options &cmd_options::add_option(char const *name, std::string &val, char co
   return *this;
 }
 cmd_options &cmd_options::add_option(char const *name, int &val, char const *description, char short_name) {
-  pimpl->options.push_back(option(name, option::String, val, description, short_name));
+  pimpl->options.push_back(option(name, option::Int, val, description, short_name));
   return *this;
 }
 
