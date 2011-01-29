@@ -69,6 +69,10 @@ void dump_pgm(std::string const &filename, unsigned counter, unsigned width, uns
   }
 }
 
+#ifdef TESSERACT_NAMESPACE
+using namespace tesseract;
+#endif
+
 #ifndef TESSERACT_DATA_PATH
 #define TESSERACT_DATA_PATH "/usr/share/tesseract-ocr/tessdata" // TODO check this in cmake
 #endif
@@ -142,7 +146,12 @@ int main(int argc, char **argv) {
   }
 
   // Init Tesseract
+#ifdef TESSERACT_NAMESPACE
+  TessBaseAPI tess_base_api;
+  tess_base_api.Init(tesseract_data_path.c_str(), tess_lang);
+#else
   TessBaseAPI::SimpleInit(tesseract_data_path.c_str(), tess_lang, false); // TODO params
+#endif
 
   // Open srt output file
   string const srt_filename = subname + ".srt";
@@ -180,7 +189,11 @@ int main(int argc, char **argv) {
         dump_pgm(subname, sub_counter, width, height, image, image_size);
       }
 
+#ifdef TESSERACT_NAMESPACE
+      char *text = tess_base_api.TesseractRect(image, 1, stride, 0, 0, width, height);
+#else
       char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
+#endif
       if(not text) {
         cerr << "ERROR: OCR failed for " << sub_counter << '\n';
         continue;
@@ -194,7 +207,11 @@ int main(int argc, char **argv) {
     }
   }
 
+#ifdef TESSERACT_NAMESPACE
+  tess_base_api.End();
+#else
   TessBaseAPI::End();
+#endif
   fclose(srtout);
   cout << "Wrote Subtitles to '" << srt_filename << "'\n";
   vobsub_close(vob);

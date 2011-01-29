@@ -19,6 +19,18 @@ find_library(Tiff_LIBRARY NAMES tiff
   /usr
   /usr/local)
 
+set(CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
+check_cxx_source_compiles(
+  "#include \"tesseract/baseapi.h\"
+   using namespace tesseract;
+   int main() {
+   }"
+  TESSERACT_NAMESPACE)
+if(TESSERACT_NAMESPACE)
+  add_definitions("-DTESSERACT_NAMESPACE") # TODO find_package_handle_standard_args?
+endif()
+list(REMOVE_ITEM CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
+
 set(Tesseract_LIBRARIES ${Tesseract_LIBRARIES} ${Tiff_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
