@@ -17,7 +17,7 @@ uninstall: build
 	echo 'Uninstalling' ;                       \
 	xargs rm < build/install_manifest.txt ;     \
 	else 					    \
-	echo 'Flusspferd does not seem to be installed.'; \
+	echo 'VobSub2Srt does not seem to be installed.'; \
 	fi
 
 build:
