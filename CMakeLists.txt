@@ -56,3 +56,32 @@ find_package(Tesseract)
 add_subdirectory(mplayer)
 add_subdirectory(src)
 add_subdirectory(doc)
+
+#### Package Generation
+execute_process (
+  COMMAND          /usr/bin/dpkg --print-architecture
+  OUTPUT_VARIABLE  CPACK_DEBIAN_PACKAGE_ARCHITECTURE
+  RESULT_VARIABLE  EXECUTE_RESULT
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  ERROR_QUIET
+)
+if(EXECUTE_RESULT)
+  message(STATUS "dpkg not found: No package generation.")
+else()
+  message(STATUS "Debian architecture: ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
+  set(CPACK_GENERATOR "DEB")
+  set(CPACK_PACKAGE_NAME "vobsub2srt")
+  set(CPACK_PACKAGE_VERSION "git-current")
+  set(CPACK_PACKAGE_CONTACT "Rüdiger Sonderfeld <ruediger@c-plusplus.de>")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Converts VobSub subtitles (.idx/.srt format) into .srt subtitles.")
+  set(CPACK_PACKAGE_DESCRIPTION "VobSub2SRT is a simple command line program to convert .idx / .sub subtitles into .srt text subtitles by using OCR. It is based on code from the MPlayer project - a really really great movie player. Tesseract is used as OCR software.")
+
+  set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
+  set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.org")
+  set(CPACK_STRIP_FILES TRUE)
+
+  set(CPACK_DEBIAN_PACKAGE_SECTION "video")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "tesseract-ocr")
+
+  include(CPack)
+endif()
