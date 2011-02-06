@@ -6,18 +6,18 @@ endif()
 
 find_path(Tesseract_INCLUDE_DIR tesseract/baseapi.h
   HINTS
-  /usr
-  /usr/local)
+  /usr/include
+  /usr/local/include)
 
 find_library(Tesseract_LIBRARIES NAMES tesseract_full
   HINTS
-  /usr
-  /usr/local)
+  /usr/lib
+  /usr/local/lib)
 
 find_library(Tiff_LIBRARY NAMES tiff
   HINTS
-  /usr
-  /usr/local)
+  /usr/lib
+  /usr/local/lib)
 
 set(CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
 check_cxx_source_compiles(
