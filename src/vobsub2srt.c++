@@ -69,7 +69,7 @@ void dump_pgm(std::string const &filename, unsigned counter, unsigned width, uns
   }
 }
 
-#ifdef TESSERACT_NAMESPACE
+#ifdef CONFIG_TESSERACT_NAMESPACE
 using namespace tesseract;
 #endif
 
@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
   }
 
   // Init Tesseract
-#ifdef TESSERACT_NAMESPACE
+#ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
   tess_base_api.Init(tesseract_data_path.c_str(), tess_lang);
 #else
@@ -189,7 +189,7 @@ int main(int argc, char **argv) {
         dump_pgm(subname, sub_counter, width, height, image, image_size);
       }
 
-#ifdef TESSERACT_NAMESPACE
+#ifdef CONFIG_TESSERACT_NAMESPACE
       char *text = tess_base_api.TesseractRect(image, 1, stride, 0, 0, width, height);
 #else
       char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
@@ -207,7 +207,7 @@ int main(int argc, char **argv) {
     }
   }
 
-#ifdef TESSERACT_NAMESPACE
+#ifdef CONFIG_TESSERACT_NAMESPACE
   tess_base_api.End();
 #else
   TessBaseAPI::End();

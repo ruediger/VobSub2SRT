@@ -9,7 +9,7 @@ find_path(Tesseract_INCLUDE_DIR tesseract/baseapi.h
   /usr/include
   /usr/local/include)
 
-find_library(Tesseract_LIBRARIES NAMES tesseract_full
+find_library(Tesseract_LIBRARIES NAMES tesseract_full tesseract_api
   HINTS
   /usr/lib
   /usr/local/lib)
@@ -27,7 +27,7 @@ check_cxx_source_compiles(
    }"
   TESSERACT_NAMESPACE)
 if(TESSERACT_NAMESPACE)
-  add_definitions("-DTESSERACT_NAMESPACE") # TODO find_package_handle_standard_args?
+  add_definitions("-DCONFIG_TESSERACT_NAMESPACE")
 endif()
 list(REMOVE_ITEM CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
 
