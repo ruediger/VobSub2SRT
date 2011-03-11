@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
   std::string ifo_file;
   std::string subname;
   std::string lang;
+  std::string blacklist;
   std::string tesseract_data_path = TESSERACT_DATA_PATH;
 
   {
@@ -93,6 +94,7 @@ int main(int argc, char **argv) {
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
       add_option("lang", lang, "language to select", 'l').
       add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
+      add_option("blacklist", blacklist, "Character blacklist to improve the OCR (e.g. \"|\\/`_~<>\")").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
     if(not opts.parse_cmd(argc, argv) or subname.empty()) {
       return 1;
@@ -149,8 +151,14 @@ int main(int argc, char **argv) {
 #ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
   tess_base_api.Init(tesseract_data_path.c_str(), tess_lang);
+  if(not blacklist.empty()) {
+    tess_base_api.SetVariable("tessedit_char_blacklist", blacklist.c_str());
+  }
 #else
   TessBaseAPI::SimpleInit(tesseract_data_path.c_str(), tess_lang, false); // TODO params
+  if(not blacklist.empty()) {
+    TessBaseAPI::SetVariable("tessedit_char_blacklist", blacklist.c_str());
+  }
 #endif
 
   // Open srt output file
