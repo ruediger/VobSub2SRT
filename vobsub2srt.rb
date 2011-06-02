@@ -1,3 +1,6 @@
+# Homebrew Formula for VobSub2SRT
+# Usage: brew install https://github.com/ruediger/VobSub2SRT/raw/master/vobsub2srt.rb
+
 require 'formula'
 
 class Vobsub2srt < Formula

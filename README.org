@@ -20,7 +20,7 @@ You should also install the tesseract data for the languages you want to use!
   sudo make install
 #+END_EXAMPLE
 
-This should install the program vobsub2srt to =/usr/local/bin=. You can uninstall vobsub2srt with =sudo make uninstall=. You can build a *.deb package (Debian/Ubuntu) with =make package=. The package is created in the =build= directory.
+This should install the program vobsub2srt to =/usr/local/bin=. You can uninstall vobsub2srt with =sudo make uninstall=. You can build a *.deb package (Debian/Ubuntu) with =make package=. The package is created in the =build= directory. Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]] (a package manager for OS X). It can be installed by using the command =brew install https://github.com/ruediger/VobSub2SRT/raw/master/vobsub2srt.rb=.
 
 * Usage
 vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles in =.srt= format. VobSub subtitles consist of two or three files called =Filename.idx=, =Filename.sub= and optional =Filename.ifo=. To convert subtitles simply call
