@@ -166,6 +166,7 @@ int main(int argc, char **argv) {
   FILE *srtout = fopen(srt_filename.c_str(), "w");
   if(not srtout) {
     perror("could not open .srt file");
+    return 1;
   }
 
   // Read subtitles and convert
