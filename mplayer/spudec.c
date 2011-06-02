@@ -149,8 +149,7 @@ static packet_t *spudec_dequeue_packet(spudec_handle_t *this)
 
 static void spudec_free_packet(packet_t *packet)
 {
-  if (packet->packet != NULL)
-    free(packet->packet);
+  free(packet->packet);
   free(packet);
 }
 
@@ -616,8 +615,7 @@ void spudec_assemble(void *this, unsigned char *packet, unsigned int len, int pt
     unsigned int len2 = get_be16(packet);
     // Start new fragment
     if (spu->packet_reserve < len2) {
-      if (spu->packet != NULL)
-	free(spu->packet);
+      free(spu->packet);
       spu->packet = malloc(len2);
       spu->packet_reserve = spu->packet != NULL ? len2 : 0;
     }
@@ -930,6 +928,10 @@ void spudec_draw_scaled(void *me, unsigned int dxs, unsigned int dys, void (*dra
 	}
 	if (spu->scaled_image) {
 	  unsigned int x, y;
+          // needs to be 0-initialized because draw_alpha draws always a
+          // multiple of 8 pixels. TODO: optimize
+          if (spu->scaled_width & 7)
+            memset(spu->scaled_image, 0, 2 * spu->scaled_image_size);
 	  if (spu->scaled_width <= 1 || spu->scaled_height <= 1) {
 	    goto nothing_to_do;
 	  }
@@ -1431,20 +1433,22 @@ void spudec_set_paletted(void *this, const uint8_t *pal_img, int pal_stride,
   packet->start_col = x;
   packet->start_row = y;
   packet->data_len = 2 * stride * h;
-  packet->packet = malloc(packet->data_len);
-  img  = packet->packet;
-  aimg = packet->packet + stride * h;
-  for (i = 0; i < 256; i++) {
-      uint32_t pixel = pal[i];
-      int alpha = pixel >> 24;
-      int gray = (((pixel & 0x000000ff) >>  0) +
-                  ((pixel & 0x0000ff00) >>  7) +
-                  ((pixel & 0x00ff0000) >> 16)) >> 2;
-      gray = FFMIN(gray, alpha);
-      g8a8_pal[i] = (-alpha << 8) | gray;
+  if (packet->data_len) { // size 0 is a special "clear" packet
+      packet->packet = malloc(packet->data_len);
+      img  = packet->packet;
+      aimg = packet->packet + stride * h;
+      for (i = 0; i < 256; i++) {
+          uint32_t pixel = pal[i];
+          int alpha = pixel >> 24;
+          int gray = (((pixel & 0x000000ff) >>  0) +
+                      ((pixel & 0x0000ff00) >>  7) +
+                      ((pixel & 0x00ff0000) >> 16)) >> 2;
+          gray = FFMIN(gray, alpha);
+          g8a8_pal[i] = (-alpha << 8) | gray;
+      }
+      pal2gray_alpha(g8a8_pal, pal_img, pal_stride,
+                     img, aimg, stride, w, h);
   }
-  pal2gray_alpha(g8a8_pal, pal_img, pal_stride,
-                 img, aimg, stride, w, h);
   packet->start_pts = 0;
   packet->end_pts = 0x7fffffff;
   if (pts != MP_NOPTS_VALUE)
