@@ -57,6 +57,33 @@ add_subdirectory(mplayer)
 add_subdirectory(src)
 add_subdirectory(doc)
 
+#### Detect Version
+if(NOT VOBSUB2SRT_VERSION)
+  if(EXISTS "${vobsub2srt_SOURCE_DIR}/version")
+    file(READ "${vobsub2srt_SOURCE_DIR}/version" VOBSUB2SRT_VERSION)
+    string(REGEX REPLACE "\n" "" VOBSUB2SRT_VERSION "${VOBSUB2SRT_VERSION}")
+  elseif(EXISTS "${vobsub2srt_SOURCE_DIR}/.git")
+    if(NOT GIT_FOUND)
+      find_package(Git QUIET)
+    endif()
+    if(GIT_FOUND)
+      execute_process(
+        COMMAND "${GIT_EXECUTABLE}" describe --tags --dirty --always
+        WORKING_DIRECTORY "${vobsub2srt_SOURCE_DIR}"
+        OUTPUT_VARIABLE VOBSUB2SRT_VERSION
+        RESULT_VARIABLE EXECUTE_GIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET)
+    endif()
+  endif()
+endif()
+
+if(NOT VOBSUB2SRT_VERSION)
+  set(VOBSUB2SRT_VERSION "unknown-dirty")
+endif()
+
+message(STATUS "vobsub2srt version: ${VOBSUB2SRT_VERSION}")
+
 #### Package Generation
 execute_process (
   COMMAND          /usr/bin/dpkg --print-architecture
@@ -71,7 +98,7 @@ else()
   message(STATUS "Debian architecture: ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
   set(CPACK_GENERATOR "DEB")
   set(CPACK_PACKAGE_NAME "vobsub2srt")
-  set(CPACK_PACKAGE_VERSION "0.0git-current")
+  set(CPACK_PACKAGE_VERSION "${VOBSUB2SRT_VERSION}")
   set(CPACK_PACKAGE_CONTACT "Rüdiger Sonderfeld <ruediger@c-plusplus.de>")
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Converts VobSub subtitles (.idx/.srt format) into .srt subtitles.")
   set(CPACK_PACKAGE_DESCRIPTION "VobSub2SRT is a simple command line program to convert .idx / .sub subtitles into .srt text subtitles by using OCR. It is based on code from the MPlayer project - a really really great movie player. Tesseract is used as OCR software.")
