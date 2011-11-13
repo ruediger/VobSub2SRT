@@ -59,7 +59,8 @@ std::string pts2srt(unsigned pts) {
 /// Dumps the image data to <subtitlename>-<subtitleid>.pgm in Netbpm PGM format
 void dump_pgm(std::string const &filename, unsigned counter, unsigned width, unsigned height,
               unsigned char const *image, size_t image_size) {
-  char buf[50];
+
+  char buf[500];
   snprintf(buf, sizeof(buf), "%s-%03u.pgm", filename.c_str(), counter);
   FILE *pgm = fopen(buf, "wb");
   if(pgm) {
