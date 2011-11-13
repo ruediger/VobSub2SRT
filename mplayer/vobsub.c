@@ -44,7 +44,7 @@
 // overridden if slang match any of vobsub streams.
 static int vobsubid = -2;
 
-int vobsub_id = -1; // moved from mpcommon.h/mplayer.c
+int vobsub_id = 0; // moved from mpcommon.h/mplayer.c
 
 /**********************************************************************
  * RAR stream handling
