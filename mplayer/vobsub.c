@@ -716,17 +716,14 @@ static int vobsub_parse_timestamp(vobsub_t *vob, const char *line)
 static int vobsub_parse_origin(vobsub_t *vob, const char *line)
 {
     // org: X,Y
-    char *p;
-    while (isspace(*line))
-        ++line;
-    if (!isdigit(*line))
-        return -1;
-    vob->origin_x = strtoul(line, &p, 10);
-    if (*p != ',')
-        return -1;
-    ++p;
-    vob->origin_y = strtoul(p, NULL, 10);
-    return 0;
+    unsigned x, y;
+
+    if (sscanf(line, " %u,%u", &x, &y) == 2) {
+        vob->origin_x = x;
+        vob->origin_y = y;
+        return 0;
+    }
+    return -1;
 }
 
 unsigned int vobsub_palette_to_yuv(unsigned int pal)
