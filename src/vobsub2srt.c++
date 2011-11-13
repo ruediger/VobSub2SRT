@@ -114,15 +114,6 @@ int main(int argc, char **argv) {
   }
 
   // Handle stream Ids and language
-  if(verbose > 0) { // TODO mplayer prints this too
-    // Print languages/indices
-    unsigned const index_count = vobsub_get_indexes_count(vob);
-    cerr << "Index Count: " << index_count << endl;
-    for(unsigned i = 0; i < index_count; ++i) {
-      int id = vobsub_get_id_by_index(vob, i);
-      cerr << "Id: " << id << " Lang: " << (id > 0 ? vobsub_get_id(vob, id) : "<no id>") << endl;
-    }
-  }
 
   char const *tess_lang = "eng"; // default english
   if(not lang.empty()) {
@@ -208,7 +199,7 @@ int main(int argc, char **argv) {
         continue;
       }
       if(verb) {
-        cout << sub_counter << " Text: " << text << endl;
+        //cout << sub_counter << " Text: " << text << endl;
       }
       fprintf(srtout, "%u\n%s --> %s\n%s\n\n", sub_counter, pts2srt(start_pts).c_str(), pts2srt(end_pts).c_str(), text);
       delete[]text;

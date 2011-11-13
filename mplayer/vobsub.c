@@ -868,7 +868,7 @@ static int vobsub_parse_one_line(vobsub_t *vob, rar_stream_t *fd,
         else if (strncmp("timestamp:", line, 10) == 0)
             res = vobsub_parse_timestamp(vob, line + 10);
         else {
-            mp_msg(MSGT_VOBSUB, MSGL_V, "vobsub: ignoring %s", line);
+            //mp_msg(MSGT_VOBSUB, MSGL_V, "vobsub: ignoring %s", line);
             /*
               size, palette, forced subs: on, and custom colors: ON, tridx are
               handled by spudec_parse_extradata in spudec.c
@@ -892,8 +892,8 @@ int vobsub_parse_ifo(void* this, const char *const name, unsigned int *palette,
     int res = -1;
     rar_stream_t *fd = rar_open(name, "rb");
     if (fd == NULL) {
-        if (force)
-            mp_msg(MSGT_VOBSUB, MSGL_WARN, "VobSub: Can't open IFO file\n");
+        //if (force)
+            //mp_msg(MSGT_VOBSUB, MSGL_WARN, "VobSub: Can't open IFO file\n");
     } else {
         // parse IFO header
         unsigned char block[0x800];
