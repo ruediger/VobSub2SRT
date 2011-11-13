@@ -21,6 +21,7 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <inttypes.h>
 #include <limits.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -704,54 +705,11 @@ static int vobsub_parse_id(vobsub_t *vob, const char *line)
 static int vobsub_parse_timestamp(vobsub_t *vob, const char *line)
 {
     // timestamp: HH:MM:SS.mmm, filepos: 0nnnnnnnnn
-    const char *p;
     int h, m, s, ms;
     off_t filepos;
-    while (isspace(*line))
-        ++line;
-    p = line;
-    while (isdigit(*p))
-        ++p;
-    if (p - line != 2)
+    if (sscanf(line, " %02d:%02d:%02d:%03d, filepos: %09"PRIx64"",
+               &h, &m, &s, &ms, &filepos) != 5)
         return -1;
-    h = atoi(line);
-    if (*p != ':')
-        return -1;
-    line = ++p;
-    while (isdigit(*p))
-        ++p;
-    if (p - line != 2)
-        return -1;
-    m = atoi(line);
-    if (*p != ':')
-        return -1;
-    line = ++p;
-    while (isdigit(*p))
-        ++p;
-    if (p - line != 2)
-        return -1;
-    s = atoi(line);
-    if (*p != ':')
-        return -1;
-    line = ++p;
-    while (isdigit(*p))
-        ++p;
-    if (p - line != 3)
-        return -1;
-    ms = atoi(line);
-    if (*p != ',')
-        return -1;
-    line = p + 1;
-    while (isspace(*line))
-        ++line;
-    if (strncmp("filepos:", line, 8))
-        return -1;
-    line += 8;
-    while (isspace(*line))
-        ++line;
-    if (! isxdigit(*line))
-        return -1;
-    filepos = strtol(line, NULL, 16);
     return vobsub_add_timestamp(vob, filepos, vob->delay + ms + 1000 * (s + 60 * (m + 60 * h)));
 }
 
