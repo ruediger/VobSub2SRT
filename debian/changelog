@@ -1,0 +1,89 @@
+vobsub2srt (0.0ubuntu1~1.gbpdb8f2d) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @db8f2d14276aba886292eb13d48ac05ef1f34bcf **
+
+  [ Rüdiger Sonderfeld ]
+  * FinLibavutil: added comment
+  * added detection and linking for Tesseract
+  * added more code to extract spu and made spudec.h c++ compat
+  * Tesseract: search and link libtiff
+  * ignore test dir for now
+  * added function to extract the required data from spudec_handle_t
+  * finished basic structure
+  * build: added install
+  * added GPL3+ license header and fixed bug in tesseract usage
+  * added GPL3+ text
+  * added README
+  * R: comments to mark changes from original MPlayer code
+  * cleaned up the dump_pgm code
+  * added code to handle cmd args
+  * improved error message when files not found
+  * fixed critical mistake ++j vs ++i
+  * mplayer: fixed vobsub_set_from_lang api (const correctness)
+  * added --lang flag and code to set the correct language stream and tesseract test data (required ISO 639-1 to ISO 639-3 conversion)
+  * try to set correct tesseract lang for default stream
+  * dump_images: use XXX as subtitle id
+  * should be --dump-images and not --dump_images
+  * updated README
+  * added --tesseract-data to set the tesseract data path from the cmd
+  * print text only when verbose is set
+  * improved error message when OCR failed
+  * added GPL3+ header to langcodes.?++
+  * moved cmd_options into own code file
+  * use start_pts from the subfile and not the time stamp from the idx file.
+  * changed README to org-mode
+  * README: minor org-mode fix
+  * README: minor fix (big)
+  * README: another minor fix (missing == tags)
+  * updated README
+  * added manpage vobsub2srt(1)
+  * install manpage
+  * updated README (manpage)
+
+  [ Armin Häberling ]
+  * fix issue with multiple instances of the same subtitle in result file.
+
+  [ Rüdiger Sonderfeld ]
+  * README: added Contributors (Armin)
+  * added missing libtiff4-dev dependency
+  * fixed bug in cmd_options (wasn't relevant for vobsub2srt though)
+  * Made VobSub2SRT work with Tesseract 3.00.
+  * forgot to replace Flusspferd with VobSub2SRT
+  * cmake: fixed Hints (FindTesseract)
+  * build: added support to build *.deb (Debian/Ubuntu etc.) package (make package)
+  * README: added make package
+  * added libtesseract_api as alternative to _full (for tesseract 3.0 support) and changed TESSERACT_NAMESPACE flag to CONFIG_TESSERACT_NAMESPACE
+  * added support for an ocr blacklist
+  * added --blacklist documentation
+  * build/deb: changed version number to prevent problems with dpkg
+
+  [ James Harris ]
+  * Added Homebrew formula for easy OS X installation.
+
+  [ Rüdiger Sonderfeld ]
+  * mplayer code: merged spudec.c changes from mplayer trunk.
+  * stop if .srt file can not be opened
+  * doc: Added information about the Homebrew formula.
+  * added James Harris to the Contributors (Homebrew formula)
+  * build: added version detection
+
+  [ Leo Koppelkamm ]
+  * Fix issue with some sub files
+  * Switch off unnecessary messages:
+  * fix an issue with long directory names
+
+  [ Rüdiger Sonderfeld ]
+  * Keep in sync with mplayer: Fix typos.
+  * Keep in sync with mplayer: vobsub: simplify timestamp parsing.
+  * Keep in sync with mplayer: vobsub: simplify origin parsing.
+  * README: added Leo Koppelkamm to the list of contributors
+  * build: apparently tesseract on Ubuntu 11.10 uses threads. CMake now links thread libraries.
+  * build: prepared for UploadPPA.cmake
+
+ -- Rüdiger Sonderfeld <ruediger@c-plusplus.de>  Wed, 16 Nov 2011 01:16:16 +0100
+
+vobsub2srt (0.0) oneiric; urgency=low
+
+  * Initial
+
+ -- Rüdiger Sonderfeld <ruediger@c-plusplus.de>  Mon, 14 Nov 2011 01:35:36 +0100

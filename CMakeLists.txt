@@ -30,6 +30,9 @@ set(INSTALL_LIBRARIES_PATH ${CMAKE_INSTALL_PREFIX}/lib)
 set(INSTALL_HEADERS_PATH ${CMAKE_INSTALL_PREFIX}/include)
 set(INSTALL_ETC_PATH ${CMAKE_INSTALL_PREFIX}/etc)
 set(INSTALL_PC_PATH ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+set(INSTALL_SHARE_DOC ${CMAKE_INSTALL_PREFIX}/share/doc/${CMAKE_PROJECT_NAME})
+install(FILES "${CMAKE_SOURCE_DIR}/COPYING" DESTINATION ${INSTALL_SHARE_DOC} RENAME copyright)
+install(FILES "${CMAKE_SOURCE_DIR}/README.org" DESTINATION ${INSTALL_SHARE_DOC} RENAME README)
 
 add_definitions("-DINSTALL_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"")
 
@@ -98,9 +101,10 @@ if(EXECUTE_RESULT)
 else()
   message(STATUS "Debian architecture: ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
   set(CPACK_GENERATOR "DEB")
-  set(CPACK_PACKAGE_NAME "vobsub2srt")
+  set(CPACK_PACKAGE_NAME "${CMAKE_PROJECT_NAME}")
   set(CPACK_PACKAGE_VERSION "${VOBSUB2SRT_VERSION}")
   set(CPACK_PACKAGE_CONTACT "Rüdiger Sonderfeld <ruediger@c-plusplus.de>")
+  set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/ruediger/VobSub2SRT")
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Converts VobSub subtitles (.idx/.srt format) into .srt subtitles.")
   set(CPACK_PACKAGE_DESCRIPTION "VobSub2SRT is a simple command line program to convert .idx / .sub subtitles into .srt text subtitles by using OCR. It is based on code from the MPlayer project - a really really great movie player. Tesseract is used as OCR software.")
 
@@ -110,6 +114,15 @@ else()
 
   set(CPACK_DEBIAN_PACKAGE_SECTION "video")
   set(CPACK_DEBIAN_PACKAGE_DEPENDS "tesseract-ocr")
+  set(CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS libavutil-dev libtiff4-dev tesseract-ocr-dev)
+#  set(CPACK_DEBIAN_GIT_DCH TRUE)
+  set(CPACK_DEBIAN_UPDATE_CHANGELOG TRUE)
+
+  set(DPUT_HOST "ppa:ruediger-c-plusplus/vobsub2srt")
 
   include(CPack)
+
+  if(ENABLE_PPA)
+    include(UploadPPA)
+  endif()
 endif()
