@@ -178,7 +178,9 @@ int main(int argc, char **argv) {
 
       // skip this packet if it is another packet of a subtitle that
       // was decoded from multiple mpeg packets.
-      if (start_pts == last_start_pts) continue;
+      if (start_pts == last_start_pts) {
+        continue;
+      }
       last_start_pts = start_pts;
 
       if(verbose > 0 and static_cast<unsigned>(timestamp) != start_pts) {
@@ -200,7 +202,7 @@ int main(int argc, char **argv) {
         continue;
       }
       if(verb) {
-        //cout << sub_counter << " Text: " << text << endl;
+        cout << sub_counter << " Text: " << text << endl;
       }
       fprintf(srtout, "%u\n%s --> %s\n%s\n\n", sub_counter, pts2srt(start_pts).c_str(), pts2srt(end_pts).c_str(), text);
       delete[]text;
