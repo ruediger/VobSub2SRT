@@ -81,6 +81,7 @@ using namespace tesseract;
 int main(int argc, char **argv) {
   bool dump_images = false;
   bool verb = false;
+  bool list_languages = false;
   std::string ifo_file;
   std::string subname;
   std::string lang;
@@ -94,6 +95,7 @@ int main(int argc, char **argv) {
       add_option("verbose", verb, "extra verbosity").
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
       add_option("lang", lang, "language to select", 'l').
+      add_option("langlist", list_languages, "list languages and exit").
       add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
       add_option("blacklist", blacklist, "Character blacklist to improve the OCR (e.g. \"|\\/`_~<>\")").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
@@ -112,6 +114,15 @@ int main(int argc, char **argv) {
   if(not vob) {
     cerr << "Couldn't open VobSub files '" << subname << ".idx/.sub'\n";
     return 1;
+  }
+
+  // list languages and exit
+  if(list_languages) {
+    cout << "Languages:\n";
+    for(size_t i = 0; i < vobsub_get_indexes_count(vob); ++i) {
+      cout << i << ": " << vobsub_get_id(vob, i) << '\n';
+    }
+    return 0;
   }
 
   // Handle stream Ids and language
