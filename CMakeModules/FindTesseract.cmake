@@ -19,6 +19,10 @@ find_library(Tiff_LIBRARY NAMES tiff
   /usr/lib
   /usr/local/lib)
 
+if(TESSERACT_DATA_PATH)
+  add_definitions(-DTESSERACT_DATA_PATH="${TESSERACT_DATA_PATH}")
+endif()
+
 set(CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
 check_cxx_source_compiles(
   "#include \"tesseract/baseapi.h\"
