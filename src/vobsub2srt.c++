@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
   // Open the sub/idx subtitles
   spu_t spu;
   vob_t vob = vobsub_open(subname.c_str(), ifo_file.empty() ? 0x0 : ifo_file.c_str(), 1, &spu);
-  if(not vob) {
+  if(not vob or vobsub_get_indexes_count(vob) == 0) {
     cerr << "Couldn't open VobSub files '" << subname << ".idx/.sub'\n";
     return 1;
   }
