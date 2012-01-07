@@ -9,7 +9,7 @@ find_path(Tesseract_INCLUDE_DIR tesseract/baseapi.h
   /usr/include
   /usr/local/include)
 
-find_library(Tesseract_LIBRARIES NAMES tesseract_full tesseract_api
+find_library(Tesseract_LIBRARIES NAMES tesseract_full tesseract_api tesseract
   HINTS
   /usr/lib
   /usr/local/lib)
