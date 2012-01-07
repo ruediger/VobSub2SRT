@@ -123,6 +123,7 @@ else()
   include(CPack)
 
   if(ENABLE_PPA)
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "any") # can be build on any system
     include(UploadPPA)
   endif()
 endif()
