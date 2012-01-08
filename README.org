@@ -41,7 +41,7 @@ An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also avai
 
 You should be able to install vobsub2srt with =emerge vobsub2srt= now. If you want to use a newer version (3+) of tesseract you have to use layman. See [[https://github.com/ruediger/VobSub2SRT/issues/13][#13]] for details.
 ** Arch AUR
-There also exist a [[https://wiki.archlinux.org/index.php/PKGBUILD][PKGBUILD]] file for Arch Linux in AUR: https://aur.archlinux.org/packages.php?ID=50015
+There also exist a [[https://wiki.archlinux.org/index.php/PKGBUILD][PKGBUILD]] file for Arch Linux in AUR: [[https://aur.archlinux.org/packages.php?ID=50015]]
 * Usage
 vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles in =.srt= format. VobSub subtitles consist of two or three files called =Filename.idx=, =Filename.sub= and optional =Filename.ifo=. To convert subtitles simply call
 
