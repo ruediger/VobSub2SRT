@@ -49,18 +49,14 @@ while(<FH>) {
 # keep sorted for binary search
 my @iso639_sorted = sort {@{$a}[0] cmp @{$b}[0] } @iso639;
 
-#foreach (@iso639_sorted) {
-#  print @{$_}[0],' ',@{$_}[1],"\n";
-#}
-
 print 'static char const *const iso639_1[] = {',"\n";
 foreach (@iso639_sorted) {
-  print '  "',@{$_}[0],"\",\n";
+  print '  "',$_->[0],"\",\n";
 }
 print "};\n\n";
 
 print 'static char const *const iso639_3[] = {',"\n";
 foreach (@iso639_sorted) {
-  print '  "',@{$_}[1],"\",\n";
+  print '  "',$_->[1],"\",\n";
 }
 print "};\n";
