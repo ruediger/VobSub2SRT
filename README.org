@@ -36,7 +36,7 @@ An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also avai
   wget https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt-9999.ebuild
   sudo mv vobsub2srt-9999.ebuild /usr/local/portage/media/video/vobsub2srt/
   cd /usr/local/portage/media/video/vobsub2srt/
-  ebuild vobsub2srt-999.ebuild digest
+  sudo ebuild vobsub2srt-999.ebuild digest
 #+END_EXAMPLE
 
 You should be able to install vobsub2srt with =emerge vobsub2srt= now. If you want to use a newer version (3+) of tesseract you have to use layman. See [[https://github.com/ruediger/VobSub2SRT/issues/13][#13]] for details.
@@ -61,7 +61,7 @@ Most code is from the MPlayer project.
 - Armin Häberling <armin.aha@gmail.com> wrote a patch to fix an issue with multiple instances of the same subtitle in result file (21af426)
 - James Harris <jimmy@jamesharris.org> wrote the formula for Homebrew (54f311d6)
 - Leo Koppelkamm reported and fixed issue #5 and problems with long filenames (b903074c, 36ec8da, d3602d6)
-- thawn wrote the ebuild script (#13)
+- Till Korten <webmaster@korten-privat.de> wrote the ebuild script (#13)
 
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
