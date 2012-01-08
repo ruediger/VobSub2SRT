@@ -29,6 +29,8 @@
 # in Perl in a long time (~10 years?) so I figured I use Perl to do the job
 # (instead of Bash or Python).
 #
+# Thanks to Aristid Breitkreuz for helping me to improve the script and my Perl style.
+#
 use warnings;
 use strict;
 
@@ -38,9 +40,9 @@ my @iso639;
 open FH, $filename or die $!;
 <FH>; # skip first line
 while(<FH>) {
-  my @fields = split /\t/, $_;
-  if($fields[3] ne '') {
-    push(@iso639, [$fields[3], $fields[0]] );
+  my ($iso3, undef, undef, $iso1) = split /\t/;
+  if($iso1 ne '') {
+    push(@iso639, [$iso1, $iso3] );
   }
 }
 
