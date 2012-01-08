@@ -28,7 +28,7 @@ You can build a *.deb package (Debian/Ubuntu) with =make package=. The package i
 ** Homebrew
 Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]] (a package manager for OS X). It can be installed by using the command =brew install https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb=.
 
-** Gentoo ebuild [[/usr/local/portage/media/video/vobsub2srt/]] 
+** Gentoo ebuild
 An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also available. You can make it available to emerge with the following steps
 
 #+BEGIN_EXAMPLE
