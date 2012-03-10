@@ -20,7 +20,11 @@ You should also install the tesseract data for the languages you want to use!
   sudo make install
 #+END_EXAMPLE
 
-This should install the program vobsub2srt to =/usr/local/bin=. You can uninstall vobsub2srt with =sudo make uninstall=.
+This should install the program vobsub2srt to =/usr/local/bin=. You can uninstall vobsub2srt with =sudo make uninstall=. If you want to install the bash completion script then set the =BASH_COMPLETION_PATH= parameter:
+
+#+BEGIN_EXAMPLE
+  ./configure -DBASH_COMPLETION_PATH="$BASH_COMPLETION_DIR"
+#+END_EXAMPLE
 
 ** .deb (Debian/Ubuntu)
 You can build a *.deb package (Debian/Ubuntu) with =make package=. The package is created in the =build= directory.
