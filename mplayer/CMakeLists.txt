@@ -1,6 +1,8 @@
 add_definitions("-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_REENTRANT")
 add_definitions("-Wundef -Wall -Wno-switch -Wno-parentheses -Wpointer-arith -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement")
 
+include_directories(${Libavutil_INCLUDE_DIRS})
+
 set(mplayer_sources
   mp_msg.c
   mp_msg.h
