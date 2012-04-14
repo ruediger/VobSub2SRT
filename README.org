@@ -67,6 +67,6 @@ Most code is from the MPlayer project.
 - James Harris <jimmy@jamesharris.org> wrote the formula for Homebrew (54f311d6)
 - Leo Koppelkamm reported and fixed issue #5 and problems with long filenames (b903074c, 36ec8da, d3602d6)
 - Till Korten <webmaster@korten-privat.de> wrote the ebuild script (#13)
-
+- Andreasf fixed missing libavutil include path (3a175eb, #15)
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
