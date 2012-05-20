@@ -6,13 +6,13 @@ vobsub2srt is released under the GPL3+ license. The MPlayer code included is GPL
 The quality of the OCR depends on the text in the subtitles. Currently the code does not use any preprocessing. But I'm currently looking into adding filters and scaling options to improve the OCR. You can correct mistakes in the =.srt= files with a text editor or a special subtitle editor.
 
 * Building
-You need tesseract and libavutil (part of the [[http://ffmpeg.org/][FFmpeg]] project). You also need cmake and a gcc to build it. With Ubuntu 10.04 you can install the dependencies with
+You need tesseract and libavutil (part of the [[http://ffmpeg.org/][FFmpeg]] project). You also need cmake and a gcc to build it. With Ubuntu 12.04 you can install the dependencies with
 
 #+BEGIN_EXAMPLE
-  sudo apt-get install libavutil-dev libtiff4-dev tesseract-ocr-dev tesseract-ocr-eng build-essential cmake
+  sudo apt-get install libavutil-dev libtiff4-dev libtesseract-dev tesseract-ocr-eng build-essential cmake
 #+END_EXAMPLE
 
-You should also install the tesseract data for the languages you want to use!
+You should also install the tesseract data for the languages you want to use! Note that the support for tesseract 2 is deprecated and will be removed in the future!
 
 #+BEGIN_EXAMPLE
   ./configure
