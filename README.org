@@ -27,10 +27,12 @@ This should install the program vobsub2srt to =/usr/local/bin=. You can uninstal
 #+END_EXAMPLE
 
 ** Static binary
-I recommend using the dynamic binary. However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quit troublesome. You need the static library files for tesseract, libtill, avutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages. For Ubuntu 12.04 you need the following extra packages:
+I recommend using the dynamic binary. However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quit troublesome. You need the static library files for tesseract, libtill, avutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages! You probably also need the Gold linker.
+
+For Ubuntu 12.04 you need the following extra packages:
 
 #+BEGIN_EXAMPLE
-  sudo apt-get install libleptonica-dev libpng12-dev libwebp-dev libgif-dev zlib1g-dev libjpeg-dev
+  sudo apt-get install libleptonica-dev libpng12-dev libwebp-dev libgif-dev zlib1g-dev libjpeg-dev binutils-gold
 #+END_EXAMPLE
 
 If linking fails with undefined references then checking what other dependencies your version of leptonica has is a good starting point. You can do this by running =ldd /usr/lib/liblept.so= (or whatever the path to leptonica is on your system). Add those dependencies to =CMakeModules/FindTesseract.cmake=.
