@@ -19,6 +19,26 @@ find_library(Tiff_LIBRARY NAMES tiff
   /usr/lib
   /usr/local/lib)
 
+if(BUILD_STATIC)
+# -llept -lgif -lwebp -ltiff -lpng -ljpeg -lz
+find_library(Lept_LIBRARY NAMES lept
+  HINTS
+  /usr/lib
+  /usr/local/lib)
+
+find_library(Webp_LIBRARY NAMES webp
+  HINTS
+  /usr/lib
+  /usr/local/lib)
+
+find_package(GIF)
+find_package(JPEG)
+find_package(PNG)
+#find_package(TIFF) TODO replace manual find_library call
+find_package(ZLIB)
+
+endif()
+
 if(TESSERACT_DATA_PATH)
   add_definitions(-DTESSERACT_DATA_PATH="${TESSERACT_DATA_PATH}")
 endif()
@@ -37,7 +57,11 @@ else()
 endif()
 list(REMOVE_ITEM CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
 
-set(Tesseract_LIBRARIES ${Tesseract_LIBRARIES} ${Tiff_LIBRARY})
+if(BUILD_STATIC)
+  set(Tesseract_LIBRARIES ${Tesseract_LIBRARIES} ${Lept_LIBRARY} ${PNG_LIBRARY} ${Tiff_LIBRARY} ${Webp_LIBRARY} ${GIF_LIBRARY} ${JPEG_LIBRARY} ${ZLIB_LIBRARY})
+else()
+  set(Tesseract_LIBRARIES ${Tesseract_LIBRARIES} ${Tiff_LIBRARY})
+endif()
 
 include(FindPackageHandleStandardArgs)
 
