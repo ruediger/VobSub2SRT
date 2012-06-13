@@ -117,8 +117,8 @@ else()
   set(CPACK_STRIP_FILES TRUE)
 
   set(CPACK_DEBIAN_PACKAGE_SECTION "video")
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "tesseract-ocr")
-  set(CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS libavutil-dev libtiff4-dev tesseract-ocr-dev)
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS libtesseract-dev)
+  set(CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS libavutil-dev libtiff4-dev libtesseract-dev tesseract-ocr-eng cmake)
 #  set(CPACK_DEBIAN_GIT_DCH TRUE)
   set(CPACK_DEBIAN_UPDATE_CHANGELOG TRUE)
 
