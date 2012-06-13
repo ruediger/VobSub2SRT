@@ -1,6 +1,6 @@
 ## -*- mode:cmake; coding:utf-8; -*-
 # Copyright (c) 2010 Daniel Pfeifer <daniel@pfeifer-mail.de>
-# Changes Copyright (c) 2011 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
+# Changes Copyright (c) 2011 2012 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
 #
 # UploadPPA.cmake is free software. It comes without any warranty,
 # to the extent permitted by applicable law. You can redistribute it
@@ -98,7 +98,7 @@ file(WRITE ${debian_control}
   "Priority: ${CPACK_DEBIAN_PACKAGE_PRIORITY}\n"
   "Maintainer: ${CPACK_DEBIAN_PACKAGE_MAINTAINER}\n"
   "Build-Depends: ${build_depends}\n"
-  "Standards-Version: 3.9.2\n"
+  "Standards-Version: 3.9.3\n"
   "Homepage: ${CPACK_DEBIAN_PACKAGE_HOMEPAGE}\n"
   "\n"
   "Package: ${CPACK_DEBIAN_PACKAGE_NAME}\n"
@@ -147,12 +147,12 @@ file(WRITE ${debian_rules}
   "\n"
   "configure-debug:\n"
   "\tcmake -E make_directory $(DEBUG)\n"
-  "\tcd $(DEBUG); cmake -DCMAKE_BUILD_TYPE=Debug ..\n"
+  "\tcd $(DEBUG); cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr ..\n"
   "\ttouch configure-debug\n"
   "\n"
   "configure-release:\n"
   "\tcmake -E make_directory $(RELEASE)\n"
-  "\tcd $(RELEASE); cmake -DCMAKE_BUILD_TYPE=Release ..\n"
+  "\tcd $(RELEASE); cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr ..\n"
   "\ttouch configure-release\n"
   "\n"
   "build: build-arch\n" # build-indep
@@ -163,14 +163,14 @@ file(WRITE ${debian_rules}
   "\ttouch build-arch\n"
   "\n"
   "build-indep: configure-release\n"
-  "\t$(MAKE) --no-print-directory -C $(RELEASE) documentation\n"
+#  "\t$(MAKE) --no-print-directory -C $(RELEASE) documentation\n"
   "\ttouch build-indep\n"
   "\n"
   "binary: binary-arch binary-indep\n"
   "\n"
   "binary-arch: build-arch\n"
-#  "\tcd $(DEBUG); cmake -DCOMPONENT=Unspecified -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr -P cmake_install.cmake\n"
-  "\tcd $(RELEASE); cmake -DCOMPONENT=Unspecified -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr -P cmake_install.cmake\n"
+#  "\tcd $(DEBUG); cmake -DCOMPONENT=Unspecified -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake\n"
+  "\tcd $(RELEASE); cmake -DCOMPONENT=Unspecified -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake\n"
   "\tcmake -E make_directory debian/tmp/DEBIAN\n"
   "\tdpkg-gencontrol -p${CPACK_DEBIAN_PACKAGE_NAME} -Pdebian/tmp\n"
   "\tdpkg --build debian/tmp ..\n"
@@ -227,7 +227,7 @@ file(WRITE ${DEBIAN_SOURCE_DIR}/debian/compat "7")
 
 ##############################################################################
 # debian/source/format
-file(WRITE ${DEBIAN_SOURCE_DIR}/debian/source/format "3.0 (native)")
+file(WRITE ${DEBIAN_SOURCE_DIR}/debian/source/format "3.0 (quilt)")
 
 ##############################################################################
 # debian/changelog
@@ -254,7 +254,7 @@ if(EXISTS ${CPACK_DEBIAN_RESOURCE_FILE_CHANGELOG})
     file(WRITE ${debian_changelog}
       "${CPACK_DEBIAN_PACKAGE_NAME} (${CPACK_PACKAGE_VERSION}) ${DISTRI}; urgency=low\n\n"
       "  * Package created with CMake\n\n"
-      " -- ${CPACK_DEBIAN_PACKAGE_MAINTAINER}  ${DATE_TIME}\n"
+      " -- ${CPACK_DEBIAN_PACKAGE_MAINTAINER}  ${DATE_TIME}\n\n"
       )
     file(APPEND ${debian_changelog} ${debian_changelog_content})
   endif()
@@ -281,6 +281,16 @@ endif()
 #  OUTPUT_VARIABLE day_suffix
 #  OUTPUT_STRIP_TRAILING_WHITESPACE
 #  )
+
+set(CPACK_SOURCE_IGNORE_FILES
+  "/build/"
+  "/debian/"
+  "/\\.git/"
+  "\\.gitignore"
+  "\\.dput.cf"
+  "/test/"
+  "/packaging/"
+  "*~")
 
 set(package_file_name "${CPACK_DEBIAN_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}")
 
