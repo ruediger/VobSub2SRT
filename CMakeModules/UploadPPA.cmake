@@ -83,7 +83,15 @@ else()
   set(deb_long_description " ${CPACK_PACKAGE_DESCRIPTION}")
 endif()
 
-set(DEBIAN_SOURCE_DIR ${CMAKE_BINARY_DIR}/Debian/${CPACK_DEBIAN_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION})
+if(PPA_DEBIAN_VERSION)
+  set(DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}-${PPA_DEBIAN_VERSION}")
+else()
+  message(WARNING "Variable PPA_DEBIAN_VERSION not set! Building 'native' package!")
+  set(DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}")
+endif()
+message(STATUS "Debian version: ${DEBIAN_PACKAGE_VERSION}")
+
+set(DEBIAN_SOURCE_DIR ${CMAKE_BINARY_DIR}/Debian/${CPACK_DEBIAN_PACKAGE_NAME}_${DEBIAN_PACKAGE_VERSION})
 
 ##############################################################################
 # debian/control
@@ -252,7 +260,7 @@ if(EXISTS ${CPACK_DEBIAN_RESOURCE_FILE_CHANGELOG})
       OUTPUT_VARIABLE DISTRI
       OUTPUT_STRIP_TRAILING_WHITESPACE)
     file(WRITE ${debian_changelog}
-      "${CPACK_DEBIAN_PACKAGE_NAME} (${CPACK_PACKAGE_VERSION}) ${DISTRI}; urgency=low\n\n"
+      "${CPACK_DEBIAN_PACKAGE_NAME} (${DEBIAN_PACKAGE_VERSION}) ${DISTRI}; urgency=low\n\n"
       "  * Package created with CMake\n\n"
       " -- ${CPACK_DEBIAN_PACKAGE_MAINTAINER}  ${DATE_TIME}\n\n"
       )
@@ -269,7 +277,7 @@ else()
     OUTPUT_VARIABLE DISTRI
     OUTPUT_STRIP_TRAILING_WHITESPACE)
   file(WRITE ${debian_changelog}
-    "${CPACK_DEBIAN_PACKAGE_NAME} (${CPACK_PACKAGE_VERSION}) ${DISTRI}; urgency=low\n\n"
+    "${CPACK_DEBIAN_PACKAGE_NAME} (${DEBIAN_PACKAGE_VERSION}) ${DISTRI}; urgency=low\n\n"
     "  * Package built with CMake\n\n"
     " -- ${CPACK_DEBIAN_PACKAGE_MAINTAINER}  ${DATE_TIME}\n"
     )
@@ -313,7 +321,7 @@ add_custom_command(OUTPUT "${orig_file}"
 ##############################################################################
 # debuild -S
 set(DEB_SOURCE_CHANGES
-  ${CPACK_DEBIAN_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}_source.changes
+  ${CPACK_DEBIAN_PACKAGE_NAME}_${DEBIAN_PACKAGE_VERSION}_source.changes
   )
 
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/Debian/${DEB_SOURCE_CHANGES}
