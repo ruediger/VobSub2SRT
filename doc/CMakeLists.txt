@@ -5,6 +5,7 @@ find_program(GZIP gzip
   /usr/local/bin)
 
 if(GZIP-NOTFOUND)
+  message(WARNING "Gzip not found! Uncompressed manpage installed")
   add_custom_target(documentation
     DEPENDS vobsub2srt.1)
 
