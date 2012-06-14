@@ -36,6 +36,18 @@
 # CPACK_PACKAGE_VERSION.  If they mismatch the creation of the package fails.
 #
 ##
+# Check packages
+#
+# ./configure -DENABLE_PPA=On
+# make dput
+# cd build/Debian
+# dpkg-source -x vobsub2srt_1.0pre4-ppa1.dsc
+# cd vobsub2srt-1.0pre4/
+# debuild -i -us -uc -sa -b
+#
+# Check the lintian warnings!
+#
+##
 # TODO
 # I plan to add support for git dch (from git-buildpackage) to auto generate
 # the changelog.
