@@ -110,7 +110,7 @@ else()
   set(CPACK_PACKAGE_CONTACT "Rüdiger Sonderfeld <ruediger@c-plusplus.de>")
   set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/ruediger/VobSub2SRT")
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Converts VobSub subtitles (.idx/.srt format) into .srt subtitles.")
-  set(CPACK_PACKAGE_DESCRIPTION "VobSub2SRT is a simple command line program to convert .idx / .sub subtitles into .srt text subtitles by using OCR. It is based on code from the MPlayer project - a really really great movie player. Tesseract is used as OCR software.")
+  set(CPACK_PACKAGE_DESCRIPTION "VobSub2SRT is a simple command line program to convert .idx / .sub subtitles\ninto .srt text subtitles by using OCR. It is based on code from the MPlayer\nproject - a really great movie player.\nTesseract is used as OCR software.")
 
   set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
   set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.org")

@@ -80,7 +80,8 @@ if(NOT CPACK_PACKAGE_DESCRIPTION AND EXISTS ${CPACK_PACKAGE_DESCRIPTION_FILE})
     set(deb_long_description "${deb_long_description} ${LINE}\n")
   endforeach(LINE ${DESC_LINES})
 else()
-  set(deb_long_description " ${CPACK_PACKAGE_DESCRIPTION}")
+  # add space before each line
+  string(REPLACE "\n" "\n " deb_long_description " ${CPACK_PACKAGE_DESCRIPTION}")
 endif()
 
 if(PPA_DEBIAN_VERSION)
