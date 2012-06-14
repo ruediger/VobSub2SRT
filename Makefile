@@ -1,4 +1,4 @@
-.PHONY: all clean distclean install uninstall package
+.PHONY: all clean distclean install uninstall package dput documentation
 
 all: build
 	$(MAKE) -C build
@@ -8,6 +8,9 @@ clean: build
 
 distclean:
 	rm -rf build/
+
+documentation: build
+	$(MAKE) -C build documentation
 
 install: build
 	$(MAKE) -C build install

@@ -172,7 +172,7 @@ file(WRITE ${debian_rules}
   "\ttouch build-arch\n"
   "\n"
   "build-indep: configure-release\n"
-#  "\t$(MAKE) --no-print-directory -C $(RELEASE) documentation\n"
+  "\t$(MAKE) --no-print-directory -C $(RELEASE) documentation\n"
   "\ttouch build-indep\n"
   "\n"
   "binary: binary-arch binary-indep\n"
