@@ -101,6 +101,7 @@ list(APPEND CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS cmake)
 list(REMOVE_DUPLICATES CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS)
 list(SORT CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS)
 string(REPLACE ";" ", " build_depends "${CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS}")
+string(REPLACE ";" ", " bin_depends "${CPACK_DEBIAN_PACKAGE_DEPENDS}")
 file(WRITE ${debian_control}
   "Source: ${CPACK_DEBIAN_PACKAGE_NAME}\n"
   "Section: ${CPACK_DEBIAN_PACKAGE_SECTION}\n"
@@ -112,7 +113,7 @@ file(WRITE ${debian_control}
   "\n"
   "Package: ${CPACK_DEBIAN_PACKAGE_NAME}\n"
   "Architecture: ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}\n"
-  "Depends: ${CPACK_DEBIAN_PACKAGE_DEPENDS}\n"
+  "Depends: ${bin_depends}, \${shlibs:Depends}\n"
   "Description: ${CPACK_PACKAGE_DESCRIPTION_SUMMARY}\n"
   "${deb_long_description}"
   )
@@ -181,6 +182,7 @@ file(WRITE ${debian_rules}
 #  "\tcd $(DEBUG); cmake -DCOMPONENT=Unspecified -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake\n"
   "\tcd $(RELEASE); cmake -DCOMPONENT=Unspecified -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake\n"
   "\tcmake -E make_directory debian/tmp/DEBIAN\n"
+  "\tdpkg-shlibdeps debian/tmp/usr/bin/*\n"
   "\tdpkg-gencontrol -p${CPACK_DEBIAN_PACKAGE_NAME} -Pdebian/tmp\n"
   "\tdpkg --build debian/tmp ..\n"
   )
@@ -294,9 +296,9 @@ endif()
 set(CPACK_SOURCE_IGNORE_FILES
   "/build/"
   "/debian/"
-  "/\\.git/"
-  "\\.gitignore"
-  "\\.dput.cf"
+  "/.git/"
+  ".gitignore"
+  ".dput.cf"
   "/test/"
   "/packaging/"
   "*~")
