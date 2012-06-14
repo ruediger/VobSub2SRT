@@ -35,7 +35,7 @@ set(INSTALL_HEADERS_PATH ${CMAKE_INSTALL_PREFIX}/include)
 set(INSTALL_ETC_PATH ${CMAKE_INSTALL_PREFIX}/etc)
 set(INSTALL_PC_PATH ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 set(INSTALL_SHARE_DOC ${CMAKE_INSTALL_PREFIX}/share/doc/${CMAKE_PROJECT_NAME})
-install(FILES "${CMAKE_SOURCE_DIR}/COPYING" DESTINATION ${INSTALL_SHARE_DOC} RENAME copyright)
+install(FILES "${CMAKE_SOURCE_DIR}/debian/copyright" DESTINATION ${INSTALL_SHARE_DOC})
 install(FILES "${CMAKE_SOURCE_DIR}/README.org" DESTINATION ${INSTALL_SHARE_DOC} RENAME README)
 
 add_definitions("-DINSTALL_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"")
@@ -112,7 +112,7 @@ else()
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Converts VobSub subtitles (.idx/.srt format) into .srt subtitles.")
   set(CPACK_PACKAGE_DESCRIPTION "VobSub2SRT is a simple command line program to convert .idx / .sub subtitles\ninto .srt text subtitles by using OCR. It is based on code from the MPlayer\nproject - a really great movie player.\nTesseract is used as OCR software.")
 
-  set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
+  set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/debian/copyright")
   set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.org")
   set(CPACK_STRIP_FILES TRUE)
 
