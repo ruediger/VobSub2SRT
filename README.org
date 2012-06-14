@@ -27,7 +27,7 @@ This should install the program vobsub2srt to =/usr/local/bin=. You can uninstal
 #+END_EXAMPLE
 
 ** Static binary
-I recommend using the dynamic binary. However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quit troublesome. You need the static library files for tesseract, libtill, avutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages! You probably also need the Gold linker.
+I recommend using the dynamic binary! However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quit troublesome. You need the static library files for tesseract, libtill, avutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages! You probably also need the Gold linker.
 
 For Ubuntu 12.04 you need the following extra packages:
 
@@ -37,8 +37,19 @@ For Ubuntu 12.04 you need the following extra packages:
 
 If linking fails with undefined references then checking what other dependencies your version of leptonica has is a good starting point. You can do this by running =ldd /usr/lib/liblept.so= (or whatever the path to leptonica is on your system). Add those dependencies to =CMakeModules/FindTesseract.cmake=.
 
-** .deb (Debian/Ubuntu)
+** Ubuntu PPA and .deb packages
+I have created a [[https://launchpad.net/~ruediger-c-plusplus/+archive/vobsub2srt][PPA (Personal Package Archive)]] to make installation on Ubuntu easy. Simply add the PPA to your apt-get sources and run an update and you can install the =vobsub2srt= package:
+
+#+BEGIN_EXAMPLE
+  sudo add-apt-repository ppa:ruediger-c-plusplus/vobsub2srt
+  sudo apt-get update
+  sudo apt-get install vobsub2srt
+#+END_EXAMPLE
+
+*** .deb (Debian/Ubuntu)
 You can build a *.deb package (Debian/Ubuntu) with =make package=. The package is created in the =build= directory.
+
+You can also create a source package and upload it to your own PPA by using the =UploadPPA.cmake=. But this is only recommended for people experienced with cmake and creating Debian packages.
 
 ** Homebrew
 Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]] (a package manager for OS X). It can be installed by using the command =brew install https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb=.
