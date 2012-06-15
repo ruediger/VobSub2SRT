@@ -27,7 +27,7 @@ This should install the program vobsub2srt to =/usr/local/bin=. You can uninstal
 #+END_EXAMPLE
 
 ** Static binary
-I recommend using the dynamic binary! However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quit troublesome. You need the static library files for tesseract, libtill, avutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages! You probably also need the Gold linker.
+I recommend using the dynamic binary! However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quite troublesome. You need the static library files for tesseract, libtill, libavutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages! You probably also need the Gold linker.
 
 For Ubuntu 12.04 you need the following extra packages:
 
