@@ -16,12 +16,7 @@ install: build
 	$(MAKE) -C build install
 
 uninstall: build
-	@if [ -f build/install_manifest.txt ]; then \
-	echo 'Uninstalling' ;                       \
-	xargs rm < build/install_manifest.txt ;     \
-	else 					    \
-	echo 'VobSub2Srt does not seem to be installed.'; \
-	fi
+	$(MAKE) -C build uninstall
 
 package: build | documentation
 	$(MAKE) -C build package
