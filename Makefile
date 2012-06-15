@@ -12,7 +12,7 @@ distclean:
 documentation: build
 	$(MAKE) -C build documentation
 
-install: build
+install: build | documentation
 	$(MAKE) -C build install
 
 uninstall: build
