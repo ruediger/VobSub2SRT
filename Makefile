@@ -1,6 +1,6 @@
 .PHONY: all clean distclean install uninstall package dput documentation
 
-all: build
+all: build | documentation
 	$(MAKE) -C build
 
 clean: build
@@ -23,7 +23,7 @@ uninstall: build
 	echo 'VobSub2Srt does not seem to be installed.'; \
 	fi
 
-package: build
+package: build | documentation
 	$(MAKE) -C build package
 
 dput:
