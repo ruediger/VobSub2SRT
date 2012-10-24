@@ -2,3 +2,5 @@ build/
 test/
 /.dput.cf
 /doc/vobsub2srt.1.gz
+/ppa_config.cmake
+/version

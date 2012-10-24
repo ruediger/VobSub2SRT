@@ -178,7 +178,7 @@ file(WRITE ${debian_rules}
   "\tcd $(RELEASE); cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr ..\n"
   "\ttouch configure-release\n"
   "\n"
-  "build: build-arch\n" # build-indep
+  "build: build-arch build-indep\n" # build-indep
   "\n"
   "build-arch: configure-release\n" # configure-debug
 #  "\t$(MAKE) --no-print-directory -C $(DEBUG) preinstall\n"
@@ -349,7 +349,7 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/Debian/${DEB_SOURCE_CHANGES}
 
 ##############################################################################
 # dput ppa:your-lp-id/ppa <source.changes>
-add_custom_target(dput ${DPUT_EXECUTABLE} ${DPUT_HOST} ${DEB_SOURCE_CHANGES}
-  DEPENDS ${CMAKE_BINARY_DIR}/Debian/${DEB_SOURCE_CHANGES}
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Debian
-  )
+ add_custom_target(dput ${DPUT_EXECUTABLE} ${DPUT_HOST} ${DEB_SOURCE_CHANGES}
+   DEPENDS ${CMAKE_BINARY_DIR}/Debian/${DEB_SOURCE_CHANGES}
+   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Debian
+   )
