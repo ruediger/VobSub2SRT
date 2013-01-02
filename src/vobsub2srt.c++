@@ -153,7 +153,10 @@ int main(int argc, char **argv) {
   // Init Tesseract
 #ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
-  tess_base_api.Init(tesseract_data_path.c_str(), tess_lang);
+  if(tess_base_api.Init(tesseract_data_path.c_str(), tess_lang) == -1) {
+    cerr << "Failed to initialize tesseract (OCR).\n";
+    return 1;
+  }
   if(not blacklist.empty()) {
     tess_base_api.SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
