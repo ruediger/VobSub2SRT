@@ -50,7 +50,7 @@ std::string pts2srt(unsigned pts) {
   unsigned const s = ms / 1000;
   ms %= 1000;
 
-  enum { length = 13 }; // HH:MM:SS:MSS\0
+  enum { length = sizeof("HH:MM:SS,MSS") };
   char buf[length];
   snprintf(buf, length, "%02d:%02d:%02d,%03d", h, m, s, ms);
   return std::string(buf);
