@@ -23,6 +23,7 @@ if(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 endif()
 
 if(BUILD_STATIC)
+  message(WARNING "Building a statically linked version of VobSub2SRT is NOT recommended.  You might run into library dependency issues.  Please check the README!")
   set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 endif()
 
