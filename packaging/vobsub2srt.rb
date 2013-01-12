@@ -13,6 +13,6 @@ class Vobsub2srt < Formula
 
   def install
     system "./configure #{std_cmake_parameters}"
-    system "cd build; make install"
+    system "cd build; make documentation; make install"
   end
 end
