@@ -6,7 +6,7 @@ find_program(GZIP gzip
 
 if(GZIP-NOTFOUND)
   message(WARNING "Gzip not found! Uncompressed manpage installed")
-  add_custom_target(documentation
+  add_custom_target(documentation ALL
     DEPENDS vobsub2srt.1)
 
   install(FILES vobsub2srt.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
@@ -17,7 +17,7 @@ else()
     MAIN_DEPENDENCY vobsub2srt.1
     WORKING_DIRECTORY "${vobsub2srt_SOURCE_DIR}/doc")
 
-  add_custom_target(documentation
+  add_custom_target(documentation ALL
     DEPENDS ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz)
 
   install(FILES ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
