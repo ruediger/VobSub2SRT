@@ -5,3 +5,4 @@ test/
 /ppa_config.cmake
 /version
 /TAGS
+*DS_Store
