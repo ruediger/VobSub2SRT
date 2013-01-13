@@ -1,6 +1,6 @@
 .PHONY: all clean distclean install uninstall package dput documentation
 
-all: build | documentation
+all: build
 	$(MAKE) -C build
 
 clean: build
@@ -12,13 +12,13 @@ distclean:
 documentation: build
 	$(MAKE) -C build documentation
 
-install: build | documentation
+install: build
 	$(MAKE) -C build install
 
 uninstall: build
 	$(MAKE) -C build uninstall
 
-package: build | documentation
+package: build
 	$(MAKE) -C build package
 
 dput:
