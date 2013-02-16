@@ -58,7 +58,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g3 -DDEBUG")
 set(CMAKE_C_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 # TODO RelWithDebInfo MinSizeRel? maybe move -march=native -ffast-math etc. to a different build type
 
-find_package(Libavutil)
 find_package(Threads)
 find_package(Tesseract)
 

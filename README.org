@@ -1,15 +1,15 @@
 # -*- mode:org; mode:visual-line; coding:utf-8; -*-
-VobSub2SRT is a simple command line program to convert =.idx= / =.sub= subtitles into =.srt= text subtitles by using OCR. It is based on code from the [[http://www.mplayerhq.hu][MPlayer project]] - a really really great movie player. [[http://code.google.com/p/tesseract-ocr/][Tesseract]] is used as OCR software.
+VobSub2SRT is a simple command line program to convert =.idx= / =.sub= subtitles into =.srt= text subtitles by using OCR. It is based on code from the [[http://www.mplayerhq.hu][MPlayer project]] - a really really great movie player. Some minor parts are copied from [[http://ffmpeg.org/][ffmpeg/avutil]] headers. [[http://code.google.com/p/tesseract-ocr/][Tesseract]] is used as OCR software.
 
 vobsub2srt is released under the GPL3+ license. The MPlayer code included is GPL2+ licensed.
 
 The quality of the OCR depends on the text in the subtitles. Currently the code does not use any preprocessing. But I'm currently looking into adding filters and scaling options to improve the OCR. You can correct mistakes in the =.srt= files with a text editor or a special subtitle editor.
 
 * Building
-You need tesseract and libavutil (part of the [[http://ffmpeg.org/][FFmpeg]] project). You also need cmake and a gcc to build it. With Ubuntu 12.10 you can install the dependencies with
+You need tesseract. You also need cmake and a gcc to build it. With Ubuntu 12.10 you can install the dependencies with
 
 #+BEGIN_EXAMPLE
-  sudo apt-get install libavutil-dev libtiff5-dev libtesseract-dev tesseract-ocr-eng build-essential cmake pkg-config
+  sudo apt-get install libtiff5-dev libtesseract-dev tesseract-ocr-eng build-essential cmake pkg-config
 #+END_EXAMPLE
 
 You should also install the tesseract data for the languages you want to use! Note that the support for tesseract 2 is deprecated and will be removed in the future!

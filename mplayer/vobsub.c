@@ -39,7 +39,6 @@
 #include "spudec.h"
 #include "mp_msg.h"
 #include "unrar_exec.h"
-#include <libavutil/common.h> // use system's libavutil
 
 // Record the original -vobsubid set by commandline, since vobsub_id will be
 // overridden if slang match any of vobsub streams.
@@ -725,6 +724,43 @@ static int vobsub_parse_origin(vobsub_t *vob, const char *line)
     }
     return -1;
 }
+
+/*
+ * The code for av_clip_uint8_c is copied from libavutil!
+ * See libavutil/common.h. The copyright for av_clip_uint8_c is:
+ *
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of Libav.
+ *
+ * Libav is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * Libav is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Libav; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * Clip a signed integer value into the 0-255 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static __attribute__((always_inline)) inline __attribute__((const)) uint8_t av_clip_uint8_c(int a)
+{
+    if (a&(~0xFF)) return (-a)>>31;
+    else           return a;
+}
+#ifndef av_clip_uint8
+#   define av_clip_uint8    av_clip_uint8_c
+#endif
 
 unsigned int vobsub_palette_to_yuv(unsigned int pal)
 {

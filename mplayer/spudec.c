@@ -44,9 +44,10 @@ int sub_pos = 100; // R: copied from libvo/sub.c
 
 #include "spudec.h"
 #include "vobsub.h"
-#include <libavutil/avutil.h> // R: Use systems' avutil
-//#include <libavutil/intreadwrite.h> // R: Use systems' avutil
 // #include "libswscale/swscale.h" // R: no swscalar gaussian aamode
+
+#define FFMAX(a,b) ((a) > (b) ? (a) : (b))
+#define FFMIN(a,b) ((a) > (b) ? (b) : (a))
 
 /* Valid values for spu_aamode:
    0: none (fastest, most ugly)
@@ -1245,6 +1246,7 @@ void spudec_set_font_factor(void * this, double factor)
 /*
 code taken from ffmpeg/libavutil. intreadwrite.h and bswap.h
 
+common.h is copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
 bswap.h is copyright (C) 2006 by Michael Niedermayer <michaelni@gmx.at>
 intreadwrite.h does not contain a specific copyright notice.
 
