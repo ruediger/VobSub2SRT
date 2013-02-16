@@ -23,18 +23,18 @@ foreach (file ${files})
     endif (EXISTS "$ENV{DESTDIR}${file}")
 endforeach(file)
 
-set(INSTALL_SHARE_DOC @INSTALL_SHARE_DOC@)
-if(INSTALL_SHARE_DOC) # prevent empty variable!
-  message(STATUS "Uninstalling \"$ENV{DESTDIR}${INSTALL_SHARE_DOC}\"")
+set(INSTALL_DOC_DIR @INSTALL_DOC_DIR@)
+if(INSTALL_DOC_DIR) # prevent empty variable!
+  message(STATUS "Uninstalling \"$ENV{DESTDIR}${INSTALL_DOC_DIR}\"")
   # Call rmdir instead of cmake -E remove_directory to avoid removing non-empty
   # directories in case install_share_doc points to a common directory
   execute_process(
-    COMMAND rmdir -- "$ENV{DESTDIR}${INSTALL_SHARE_DOC}"
+    COMMAND rmdir -- "$ENV{DESTDIR}${INSTALL_DOC_DIR}"
     OUTPUT_VARIABLE rm_out
     RESULT_VARIABLE rm_retval
     )
   if(NOT rm_retval EQUAL 0)
-    message(FATAL_ERROR "Removing directory $ENV{DESTDIR}${INSTALL_SHARE_DOC}")
+    message(FATAL_ERROR "Removing directory $ENV{DESTDIR}${INSTALL_DOC_DIR}")
   endif()
 else()
   message(WARNING "No share/doc path found!")

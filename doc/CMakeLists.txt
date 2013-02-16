@@ -9,7 +9,7 @@ if(GZIP-NOTFOUND)
   add_custom_target(documentation ALL
     DEPENDS vobsub2srt.1)
 
-  install(FILES vobsub2srt.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
+  install(FILES vobsub2srt.1 DESTINATION INSTALL_MAN_DIR)
 else()
   add_custom_command(
     OUTPUT ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz
@@ -20,7 +20,7 @@ else()
   add_custom_target(documentation ALL
     DEPENDS ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz)
 
-  install(FILES ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
+  install(FILES ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz DESTINATION INSTALL_MAN_DIR)
 endif()
 
 option(BASH_COMPLETION_PATH "Install the bash completion script to the given path. Should be set to the value of $BASH_COMPLETION_DIR if available.")
