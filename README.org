@@ -1,18 +1,28 @@
-# -*- mode:org; mode:visual-line; coding:utf-8; -*-
-VobSub2SRT is a simple command line program to convert =.idx= / =.sub= subtitles into =.srt= text subtitles by using OCR. It is based on code from the [[http://www.mplayerhq.hu][MPlayer project]] - a really really great movie player. Some minor parts are copied from [[http://ffmpeg.org/][ffmpeg/avutil]] headers. [[http://code.google.com/p/tesseract-ocr/][Tesseract]] is used as OCR software.
+# -*- mode:org; mode:auto-fill; fill-column:80; coding:utf-8; -*-
+VobSub2SRT is a simple command line program to convert =.idx= / =.sub= subtitles
+into =.srt= text subtitles by using OCR.  It is based on code from the
+[[http://www.mplayerhq.hu][MPlayer project]] - a really really great movie player.  Some minor parts are
+ copied from [[http://ffmpeg.org/][ffmpeg/avutil]] headers. [[http://code.google.com/p/tesseract-ocr/][Tesseract]] is used as OCR software.
 
-vobsub2srt is released under the GPL3+ license. The MPlayer code included is GPL2+ licensed.
+vobsub2srt is released under the GPL3+ license. The MPlayer code included is
+GPL2+ licensed.
 
-The quality of the OCR depends on the text in the subtitles. Currently the code does not use any preprocessing. But I'm currently looking into adding filters and scaling options to improve the OCR. You can correct mistakes in the =.srt= files with a text editor or a special subtitle editor.
+The quality of the OCR depends on the text in the subtitles. Currently the code
+does not use any preprocessing.  But I'm currently looking into adding filters
+and scaling options to improve the OCR. You can correct mistakes in the =.srt=
+files with a text editor or a special subtitle editor.
 
 * Building
-You need tesseract. You also need cmake and a gcc to build it. With Ubuntu 12.10 you can install the dependencies with
+You need tesseract. You also need cmake and a gcc to build it.
+With Ubuntu 12.10 you can install the dependencies with
 
 #+BEGIN_EXAMPLE
   sudo apt-get install libtiff5-dev libtesseract-dev tesseract-ocr-eng build-essential cmake pkg-config
 #+END_EXAMPLE
 
-You should also install the tesseract data for the languages you want to use! Note that the support for tesseract 2 is deprecated and will be removed in the future!
+You should also install the tesseract data for the languages you want to use!
+Note that the support for tesseract 2 is deprecated and will be removed in the
+future!
 
 #+BEGIN_EXAMPLE
   ./configure
@@ -20,14 +30,21 @@ You should also install the tesseract data for the languages you want to use! No
   sudo make install
 #+END_EXAMPLE
 
-This should install the program vobsub2srt to =/usr/local/bin=. You can uninstall vobsub2srt with =sudo make uninstall=. If you want to install the bash completion script then set the =BASH_COMPLETION_PATH= parameter:
+This should install the program vobsub2srt to =/usr/local/bin=. You can
+uninstall vobsub2srt with =sudo make uninstall=.  If you want to install the
+bash completion script then set the =BASH_COMPLETION_PATH= parameter:
 
 #+BEGIN_EXAMPLE
   ./configure -DBASH_COMPLETION_PATH="$BASH_COMPLETION_DIR"
 #+END_EXAMPLE
 
 ** Static binary
-I recommend using the dynamic binary! However if you really need a static binary you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call. But be aware that building static binaries can be quite troublesome. You need the static library files for tesseract, libtill, libavutils, and for their dependencies as well. On Ubuntu 12.04 the static libraries are only included in the dev packages! You probably also need the Gold linker.
+I recommend using the dynamic binary! However if you really need a static binary
+you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call.  But be
+aware that building static binaries can be quite troublesome. You need the
+static library files for tesseract, libtill, libavutils, and for their
+dependencies as well.  On Ubuntu 12.04 the static libraries are only included in
+the dev packages! You probably also need the Gold linker.
 
 For Ubuntu 12.04 you need the following extra packages:
 
@@ -35,10 +52,15 @@ For Ubuntu 12.04 you need the following extra packages:
   sudo apt-get install libleptonica-dev libpng12-dev libwebp-dev libgif-dev zlib1g-dev libjpeg-dev binutils-gold
 #+END_EXAMPLE
 
-If linking fails with undefined references then checking what other dependencies your version of leptonica has is a good starting point. You can do this by running =ldd /usr/lib/liblept.so= (or whatever the path to leptonica is on your system). Add those dependencies to =CMakeModules/FindTesseract.cmake=.
+If linking fails with undefined references then checking what other dependencies
+your version of leptonica has is a good starting point. You can do this by
+running =ldd /usr/lib/liblept.so= (or whatever the path to leptonica is on your
+system). Add those dependencies to =CMakeModules/FindTesseract.cmake=.
 
 ** Ubuntu PPA and .deb packages
-I have created a [[https://launchpad.net/~ruediger-c-plusplus/+archive/vobsub2srt][PPA (Personal Package Archive)]] to make installation on Ubuntu easy. Simply add the PPA to your apt-get sources and run an update and you can install the =vobsub2srt= package:
+I have created a [[https://launchpad.net/~ruediger-c-plusplus/+archive/vobsub2srt][PPA (Personal Package Archive)]] to make installation on
+Ubuntu easy.  Simply add the PPA to your apt-get sources and run an update and
+you can install the =vobsub2srt= package:
 
 #+BEGIN_EXAMPLE
   sudo add-apt-repository ppa:ruediger-c-plusplus/vobsub2srt
@@ -47,15 +69,21 @@ I have created a [[https://launchpad.net/~ruediger-c-plusplus/+archive/vobsub2sr
 #+END_EXAMPLE
 
 *** .deb (Debian/Ubuntu)
-You can build a *.deb package (Debian/Ubuntu) with =make package=. The package is created in the =build= directory.
+You can build a *.deb package (Debian/Ubuntu) with =make package=.  The package
+is created in the =build= directory.
 
-You can also create a source package and upload it to your own PPA by using the =UploadPPA.cmake=. But this is only recommended for people experienced with cmake and creating Debian packages.
+You can also create a source package and upload it to your own PPA by using the
+=UploadPPA.cmake=. But this is only recommended for people experienced with
+cmake and creating Debian packages.
 
 ** Homebrew
-Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]] (a package manager for OS X). It can be installed by using the command =brew install https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb=.
+Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]] (a package manager for OS X).  It can
+be installed by using the command
+=brew install https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb=.
 
 ** Gentoo ebuild
-An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also available. You can make it available to emerge with the following steps
+An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also available.  You can make it available to
+emerge with the following steps
 
 #+BEGIN_EXAMPLE
   sudo mkdir -p /usr/local/portage/media/video/vobsub2srt/
@@ -65,29 +93,43 @@ An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also avai
   sudo ebuild vobsub2srt-999.ebuild digest
 #+END_EXAMPLE
 
-You should be able to install vobsub2srt with =emerge vobsub2srt= now. If you want to use a newer version (3+) of tesseract you have to use layman. See [[https://github.com/ruediger/VobSub2SRT/issues/13][#13]] for details.
+You should be able to install vobsub2srt with =emerge vobsub2srt= now.  If you
+want to use a newer version (3+) of tesseract you have to use layman.
+See [[https://github.com/ruediger/VobSub2SRT/issues/13][#13]] for details.
 ** Arch AUR
-There also exist a [[https://wiki.archlinux.org/index.php/PKGBUILD][PKGBUILD]] file for Arch Linux in AUR: [[https://aur.archlinux.org/packages.php?ID=50015]]
+There also exist a [[https://wiki.archlinux.org/index.php/PKGBUILD][PKGBUILD]] file for Arch Linux in AUR:
+[[https://aur.archlinux.org/packages.php?ID=50015]]
 * Usage
-vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles in =.srt= format. VobSub subtitles consist of two or three files called =Filename.idx=, =Filename.sub= and optional =Filename.ifo=. To convert subtitles simply call
+vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles
+in =.srt= format.  VobSub subtitles consist of two or three files called
+=Filename.idx=, =Filename.sub= and optional =Filename.ifo=. To convert subtitles
+simply call
 
 #+BEGIN_EXAMPLE
   vobsub2srt Filename
 #+END_EXAMPLE
 
-with =Filename= being the file name of the subtitle files *WITHOUT* the extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called =Filename.srt=.
+with =Filename= being the file name of the subtitle files *WITHOUT* the
+extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called
+=Filename.srt=.
 
-If a subtitle file contains more than one language you can use the =--lang= parameter to set the correct language (Use =--langlist= to find out about the languages in the file).
+If a subtitle file contains more than one language you can use the =--lang=
+parameter to set the correct language (Use =--langlist= to find out about the
+languages in the file).
 
-If you want to dump the subtitles as images (e.g. to check for correct ocr) you can use the =--dump-images= flag.
+If you want to dump the subtitles as images (e.g. to check for correct ocr) you
+can use the =--dump-images= flag.
 
-Use =--help= or read the manpage to get more information about the options of vobsub2srt.
+Use =--help= or read the manpage to get more information about the options of
+vobsub2srt.
 
 * Contributors
 Most code is from the MPlayer project.
-- Armin Häberling <armin.aha@gmail.com> wrote a patch to fix an issue with multiple instances of the same subtitle in result file (21af426)
+- Armin Häberling <armin.aha@gmail.com> wrote a patch to fix an issue with
+  multiple instances of the same subtitle in result file (21af426)
 - James Harris <jimmy@jamesharris.org> wrote the formula for Homebrew (54f311d6)
-- Leo Koppelkamm reported and fixed issue #5 and problems with long filenames (b903074c, 36ec8da, d3602d6)
+- Leo Koppelkamm reported and fixed issue #5 and problems with long filenames
+  (b903074c, 36ec8da, d3602d6)
 - Till Korten <webmaster@korten-privat.de> wrote the ebuild script (#13)
 - Andreasf fixed missing libavutil include path (3a175eb, #15)
 * To Do
