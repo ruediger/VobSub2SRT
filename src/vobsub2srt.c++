@@ -85,6 +85,7 @@ int main(int argc, char **argv) {
   std::string ifo_file;
   std::string subname;
   std::string lang;
+  std::string tess_lang_user;
   std::string blacklist;
   std::string tesseract_data_path = TESSERACT_DATA_PATH;
 
@@ -96,6 +97,7 @@ int main(int argc, char **argv) {
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
       add_option("lang", lang, "language to select", 'l').
       add_option("langlist", list_languages, "list languages and exit").
+      add_option("tesseract-lang", tess_lang_user, "set tesseract language (Default: auto detect)").
       add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
       add_option("blacklist", blacklist, "Character blacklist to improve the OCR (e.g. \"|\\/`_~<>\")").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
@@ -127,12 +129,12 @@ int main(int argc, char **argv) {
 
   // Handle stream Ids and language
 
-  char const *tess_lang = "eng"; // default english
+  char const *tess_lang = tess_lang_user.empty() ? "eng" : tess_lang_user.c_str(); // default english
   if(not lang.empty()) {
     if(vobsub_set_from_lang(vob, lang.c_str()) < 0) {
       cerr << "No matching language for '" << lang << "' found! (Trying to use default)\n";
     }
-    else {
+    else if(tess_lang_user.empty()) {
       // convert two letter lang code into three letter lang code (required by tesseract)
       char const *const lang3 = iso639_1_to_639_3(lang.c_str());
       if(lang3) {
@@ -142,7 +144,7 @@ int main(int argc, char **argv) {
   }
   else if(vobsub_id >= 0) { // try to set correct tesseract lang for default stream
     char const *const lang1 = vobsub_get_id(vob, vobsub_id);
-    if(lang1) {
+    if(lang1 and tess_lang_user.empty()) {
       char const *const lang3 = iso639_1_to_639_3(lang1);
       if(lang3) {
         tess_lang = lang3;
