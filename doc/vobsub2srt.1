@@ -27,7 +27,7 @@ List languages and exit.
 To use a specific IFO file. Default: \fIFILENAME\fR.IFO is tried. IFO file is optional!
 .TP
 \fB\-\-tesseract-lang\fR \fIlanguage\fR
-Set the language to be used by tesseract.  This is auto detected and normally does not has to be changed.  If however you need special language settings (e.g., deu-frak) use this option.
+Set the language to be used by tesseract.  This is auto detected and normally does not has to be changed.  If however you need special language settings (e.g., deu-frak, chi_sim, chi_tra) use this option.
 .TP
 \fB\-\-tesseract-data\fR \fIpath\fR
 Set path to tesseract-data.
@@ -39,6 +39,10 @@ Blacklist characters for OCR (e.g. |\\/`_~<>)
   $ \fBvobsub2srt \-\-lang en foobar\fR
 .fi
 Converts the English language subtitles from the VobSub files \fIfoobar.idx\fR/\fIfoobar.sub\fR to srt subtitles in \fIfoobar.srt\fR.
+.nf
+  $ \fBvobsub2srt \-\-lang zh \-\-tesseract-lang chi_sim foobar\fR
+.fi
+Converts the chinese language subtitles using simplified chinese (chi_sim) characters.
 .SH HOMEPAGE
 For more information see \fIhttp://github.com/ruediger/VobSub2SRT\fR
 .SH AUTHOR
