@@ -115,7 +115,10 @@ extension (=.idx= / =.sub=). vobsub2srt writes the subtitles to a file called
 
 If a subtitle file contains more than one language you can use the =--lang=
 parameter to set the correct language (Use =--langlist= to find out about the
-languages in the file).
+languages in the file).  For some languages you might need to set the tesseract
+language yourself (e.g., chi_tra/chi_sim for traditional or simplified chinese
+characters).  You can use =--tesseract-lang= to do this.  In most cases this
+should however be autodetected.
 
 If you want to dump the subtitles as images (e.g. to check for correct ocr) you
 can use the =--dump-images= flag.
