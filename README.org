@@ -126,6 +126,19 @@ can use the =--dump-images= flag.
 Use =--help= or read the manpage to get more information about the options of
 vobsub2srt.
 
+* Bug reports
+Please submit bug reports or feature requests to the
+[[https://github.com/ruediger/VobSub2SRT/issues][issue tracker on GitHub]].  If you do not have a GitHub account and feel
+uncomfortable creating one then feel free to send an e-mail to
+<ruediger@c-plusplus.de> instead.
+
+If you have problems with a specific subtitle file then please check if
+it works in mplayer first.  If it does not then please report the bug to
+mplayer as well and link to the mplayer bug report.
+
+For bug reports please run =vobsub2srt= with the =--verbose= option and copy
+and paste the full output to the bug report.
+
 * Contributors
 Most code is from the MPlayer project.
 - Armin Häberling <armin.aha@gmail.com> wrote a patch to fix an issue with
@@ -135,5 +148,6 @@ Most code is from the MPlayer project.
   (b903074c, 36ec8da, d3602d6)
 - Till Korten <webmaster@korten-privat.de> wrote the ebuild script (#13)
 - Andreasf fixed missing libavutil include path (3a175eb, #15)
+
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
