@@ -30,12 +30,12 @@ future!
   sudo make install
 #+END_EXAMPLE
 
-This should install the program vobsub2srt to =/usr/local/bin=. You can
+This should install the program vobsub2srt to =/usr/local/bin=.  You can
 uninstall vobsub2srt with =sudo make uninstall=.  If you want to install the
 bash completion script then set the =BASH_COMPLETION_PATH= parameter:
 
 #+BEGIN_EXAMPLE
-  ./configure -DBASH_COMPLETION_PATH="$BASH_COMPLETION_DIR"
+  ./configure -DBASH_COMPLETION_PATH="$(pkg-config --variable=completionsdir bash-completion)"
 #+END_EXAMPLE
 
 ** Static binary

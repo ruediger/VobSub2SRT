@@ -23,7 +23,7 @@ else()
   install(FILES ${CMAKE_BINARY_DIR}/doc/vobsub2srt.1.gz DESTINATION ${INSTALL_MAN_DIR})
 endif()
 
-option(BASH_COMPLETION_PATH "Install the bash completion script to the given path. Should be set to the value of $BASH_COMPLETION_DIR if available.")
+option(BASH_COMPLETION_PATH "Install the bash completion script to the given path.  Should be set to the value of `pkg-config --variable=completionsdir bash-completion` if available.")
 if(BASH_COMPLETION_PATH)
   message(STATUS "Bash completion path: ${BASH_COMPLETION_PATH}")
   install(FILES completion.sh DESTINATION ${BASH_COMPLETION_PATH} RENAME vobsub2srt)
