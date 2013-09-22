@@ -58,14 +58,16 @@ std::string pts2srt(unsigned pts) {
 
 /// Dumps the image data to <subtitlename>-<subtitleid>.pgm in Netbpm PGM format
 void dump_pgm(std::string const &filename, unsigned counter, unsigned width, unsigned height,
-              unsigned char const *image, size_t image_size) {
+              unsigned stride, unsigned char const *image, size_t image_size) {
 
   char buf[500];
   snprintf(buf, sizeof(buf), "%s-%03u.pgm", filename.c_str(), counter);
   FILE *pgm = fopen(buf, "wb");
   if(pgm) {
     fprintf(pgm, "P5\n%u %u %u\n", width, height, 255u);
-    fwrite(image, 1, image_size, pgm);
+    for(unsigned i = 0; i < image_size; i += stride) {
+      fwrite(image + i, 1, width, pgm);
+    }
     fclose(pgm);
   }
 }
@@ -225,7 +227,7 @@ int main(int argc, char **argv) {
       }
 
       if(dump_images) {
-        dump_pgm(subname, sub_counter, width, height, image, image_size);
+        dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
       }
 
 #ifdef CONFIG_TESSERACT_NAMESPACE
