@@ -1,11 +1,11 @@
-.TH vobsub2srt 1 "27 September 2010"
+.TH vobsub2srt 1 "17 June 2013"
 .SH NAME
 vobsub2srt \- converts vobsub (.idx/.sub) into .srt subtitles
 .SH SYNOPSIS
 \fBvobsub2srt\fR [\fIOPTION\fR] \fIFILENAME\fR
 .SH DESCRIPTION
 .PP
-vobsub2srt converts subtitles in vobsub (.idx/.sub) format into the .srt format. VobSub subtitles contain images and srt is a text format. OCR is used to extract the text from the subtitles. vobsub2srt uses tesseract for OCR and is based on code from the MPlayer project.
+vobsub2srt converts subtitles in vobsub (.idx/.sub) format into the .srt format.  VobSub subtitles contain images and srt is a text format.  OCR is used to extract the text from the subtitles.  vobsub2srt uses tesseract for OCR and is based on code from the MPlayer project.
 .SH OPTIONS
 .TP
 \fIFILENAME\fR
@@ -18,10 +18,13 @@ Dump the subtitles as images (format \fIFILENAME\fR-\fINUMBER\fR.pgm in PGM form
 Print more information about the file (e.g. subtitle languages)
 .TP
 \fB\-\-lang\fR \fIlanguage\fR
-Select the language of the subtitle (two letter ISO 639-1 code e.g. en for English or de for German). Use \fI--verbose\fR to see the languages in the subtitle file.
+Select the language of the subtitle (two letter ISO 639-1 code e.g. en for English or de for German).  Use \fI--langlist\fR to see the languages in the subtitle file.
 .TP
 \fB\-\-langlist\fR
 List languages and exit.
+.TP
+\fB\-\-index\fR \fIindex\fR
+The index of the subtitle to convert.  Use this instead \fI--lang\fR if there are several streams with the same language.  Combining \fI--lang\fR and \fI--index\fR does not work!
 .TP
 \fB\-\-ifo\fR \fIifo-file\fR
 To use a specific IFO file. Default: \fIFILENAME\fR.IFO is tried. IFO file is optional!
