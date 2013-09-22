@@ -122,7 +122,8 @@ int main(int argc, char **argv) {
   if(list_languages) {
     cout << "Languages:\n";
     for(size_t i = 0; i < vobsub_get_indexes_count(vob); ++i) {
-      cout << i << ": " << vobsub_get_id(vob, i) << '\n';
+      char const *const id = vobsub_get_id(vob, i);
+      cout << i << ": " << (id ? id : "(no id)") << '\n';
     }
     return 0;
   }
