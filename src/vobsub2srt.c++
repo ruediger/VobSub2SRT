@@ -29,6 +29,7 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include <vector>
 using namespace std;
 
 #include "langcodes.h++"
@@ -36,6 +37,12 @@ using namespace std;
 
 typedef void* vob_t;
 typedef void* spu_t;
+
+// helper struct for caching and fixing end_pts in some cases
+typedef struct {
+  unsigned start_pts, end_pts;
+  char *text;
+} sub_text_t;
 
 /** Converts time stamp in pts format to a string containing the time stamp for the srt format
  *
@@ -205,6 +212,8 @@ int main(int argc, char **argv) {
   int len;
   unsigned last_start_pts = 0;
   unsigned sub_counter = 1;
+  sub_text_t sub_text;
+  std::vector<sub_text_t> conv_subs;
   while( (len = vobsub_get_next_packet(vob, &packet, &timestamp)) > 0) {
     if(timestamp >= 0) {
       spudec_assemble(spu, reinterpret_cast<unsigned char*>(packet), len, timestamp);
@@ -242,10 +251,22 @@ int main(int argc, char **argv) {
       if(verb) {
         cout << sub_counter << " Text: " << text << endl;
       }
-      fprintf(srtout, "%u\n%s --> %s\n%s\n\n", sub_counter, pts2srt(start_pts).c_str(), pts2srt(end_pts).c_str(), text);
-      delete[]text;
+      sub_text.start_pts = start_pts;
+      sub_text.end_pts = end_pts;
+      sub_text.text = text;
+      conv_subs.push_back(sub_text);
       ++sub_counter;
     }
+  }
+
+  // write the file, fixing end_pts when needed
+  for (unsigned i = 0; i < conv_subs.size(); i++)
+  {
+      if(conv_subs[i].end_pts == UINT_MAX && i+1 < conv_subs.size())
+        conv_subs[i].end_pts = conv_subs[i+1].start_pts;
+
+      fprintf(srtout, "%u\n%s --> %s\n%s\n\n", i, pts2srt(conv_subs[i].start_pts).c_str(), pts2srt(conv_subs[i].end_pts).c_str(), conv_subs[i].text);
+      delete[]conv_subs[i].text;
   }
 
 #ifdef CONFIG_TESSERACT_NAMESPACE
