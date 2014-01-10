@@ -39,14 +39,20 @@ typedef void* vob_t;
 typedef void* spu_t;
 
 // helper struct for caching and fixing end_pts in some cases
-typedef struct {
+struct sub_text_t {
+  sub_text_t(unsigned start_pts, unsigned end_pts, char const *text)
+    : start_pts(start_pts), end_pts(end_pts), text(text)
+  { }
+  ~sub_text_t()
+  { delete[]text; }
   unsigned start_pts, end_pts;
-  char *text;
-} sub_text_t;
+  char const *text;
+};
 
 /** Converts time stamp in pts format to a string containing the time stamp for the srt format
  *
- * pts (presentation time stamp) is given with a 90kHz resolution (1/90 ms). srt expects a time stamp as  HH:MM:SS:MSS.
+ * pts (presentation time stamp) is given with a 90kHz resolution (1/90 ms).
+ * srt expects a time stamp as  HH:MM:SS:MSS.
  */
 std::string pts2srt(unsigned pts) {
   unsigned ms = pts/90;
@@ -212,8 +218,8 @@ int main(int argc, char **argv) {
   int len;
   unsigned last_start_pts = 0;
   unsigned sub_counter = 1;
-  sub_text_t sub_text;
-  std::vector<sub_text_t> conv_subs;
+  vector<sub_text_t> conv_subs;
+  conv_subs.reserve(200); // TODO better estimate
   while( (len = vobsub_get_next_packet(vob, &packet, &timestamp)) > 0) {
     if(timestamp >= 0) {
       spudec_assemble(spu, reinterpret_cast<unsigned char*>(packet), len, timestamp);
@@ -231,7 +237,8 @@ int main(int argc, char **argv) {
       last_start_pts = start_pts;
 
       if(verbose > 0 and static_cast<unsigned>(timestamp) != start_pts) {
-        cerr << sub_counter << ": time stamp from .idx (" << timestamp << ") doesn't match time stamp from .sub ("
+        cerr << sub_counter << ": time stamp from .idx (" << timestamp
+             << ") doesn't match time stamp from .sub ("
              << start_pts << ")\n";
       }
 
@@ -251,22 +258,18 @@ int main(int argc, char **argv) {
       if(verb) {
         cout << sub_counter << " Text: " << text << endl;
       }
-      sub_text.start_pts = start_pts;
-      sub_text.end_pts = end_pts;
-      sub_text.text = text;
-      conv_subs.push_back(sub_text);
+      conv_subs.push_back(sub_text_t(start_pts, end_pts, text));
       ++sub_counter;
     }
   }
 
   // write the file, fixing end_pts when needed
-  for (unsigned i = 0; i < conv_subs.size(); i++)
-  {
-      if(conv_subs[i].end_pts == UINT_MAX && i+1 < conv_subs.size())
-        conv_subs[i].end_pts = conv_subs[i+1].start_pts;
+  for(unsigned i = 0; i < conv_subs.size(); ++i) {
+    if(conv_subs[i].end_pts == UINT_MAX && i+1 < conv_subs.size())
+      conv_subs[i].end_pts = conv_subs[i+1].start_pts;
 
-      fprintf(srtout, "%u\n%s --> %s\n%s\n\n", i, pts2srt(conv_subs[i].start_pts).c_str(), pts2srt(conv_subs[i].end_pts).c_str(), conv_subs[i].text);
-      delete[]conv_subs[i].text;
+    fprintf(srtout, "%u\n%s --> %s\n%s\n\n", i, pts2srt(conv_subs[i].start_pts).c_str(),
+            pts2srt(conv_subs[i].end_pts).c_str(), conv_subs[i].text);
   }
 
 #ifdef CONFIG_TESSERACT_NAMESPACE
