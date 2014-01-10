@@ -148,6 +148,7 @@ Most code is from the MPlayer project.
   (b903074c, 36ec8da, d3602d6)
 - Till Korten <webmaster@korten-privat.de> wrote the ebuild script (#13)
 - Andreasf fixed missing libavutil include path (3a175eb, #15)
+- Michal Gawlik fixed the overlapping issue (5b2ccabc55f, #29, #32)
 
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
