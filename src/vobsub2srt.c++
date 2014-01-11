@@ -43,8 +43,6 @@ struct sub_text_t {
   sub_text_t(unsigned start_pts, unsigned end_pts, char const *text)
     : start_pts(start_pts), end_pts(end_pts), text(text)
   { }
-  ~sub_text_t()
-  { delete[]text; }
   unsigned start_pts, end_pts;
   char const *text;
 };
@@ -270,6 +268,9 @@ int main(int argc, char **argv) {
 
     fprintf(srtout, "%u\n%s --> %s\n%s\n\n", i, pts2srt(conv_subs[i].start_pts).c_str(),
             pts2srt(conv_subs[i].end_pts).c_str(), conv_subs[i].text);
+
+    delete[]conv_subs[i].text;
+    conv_subs[i].text = 0x0;
   }
 
 #ifdef CONFIG_TESSERACT_NAMESPACE
