@@ -93,6 +93,7 @@ using namespace tesseract;
 
 int main(int argc, char **argv) {
   bool dump_images = false;
+  bool dump_error_images = false;
   bool verb = false;
   bool list_languages = false;
   std::string ifo_file;
@@ -107,6 +108,9 @@ int main(int argc, char **argv) {
     cmd_options opts;
     opts.
       add_option("dump-images", dump_images, "dump subtitles as image files (<subname>-<number>.pgm).").
+      add_option("dump-error-images", dump_error_images,
+                 "dump subtitles as image files if there was an OCR error"
+                 " (<subname>-<number>.pgm).").
       add_option("verbose", verb, "extra verbosity").
       add_option("ifo", ifo_file, "name of the ifo file. default: tries to open <subname>.ifo. ifo file is optional!").
       add_option("lang", lang, "language to select", 'l').
@@ -240,15 +244,14 @@ int main(int argc, char **argv) {
              << start_pts << ")\n";
       }
 
-      if(dump_images) {
-        dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
-      }
-
 #ifdef CONFIG_TESSERACT_NAMESPACE
       char *text = tess_base_api.TesseractRect(image, 1, stride, 0, 0, width, height);
 #else
       char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
 #endif
+      if(dump_images or (dump_error_images and not text)) {
+        dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
+      }
       if(not text) {
         cerr << "ERROR: OCR failed for " << sub_counter << '\n';
         continue;

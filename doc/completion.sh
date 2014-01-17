@@ -44,7 +44,7 @@ _vobsub2srt() {
 
     case $cur in
         -*)
-            COMPREPLY=( $( compgen -W '--dump-images --verbose --ifo --lang --langlist --tesseract-lang --tesseract-data --blacklist' -- "$cur" ) )
+            COMPREPLY=( $( compgen -W '--dump-images --dump-error-images --verbose --ifo --lang --langlist --tesseract-lang --tesseract-data --blacklist' -- "$cur" ) )
             ;;
         *)
             _filedir '(idx|IDX|sub|SUB)'
