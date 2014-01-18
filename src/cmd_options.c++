@@ -116,9 +116,11 @@ bool cmd_options::parse_cmd(int argc, char **argv) const {
         help(argv[0]);
         continue;
       }
+      bool known_option = false;
       for(std::vector<option>::const_iterator j = pimpl->options.begin(); j != pimpl->options.end(); ++j) {
         if(strcmp(argv[i]+offset, j->name) == 0 or
            (j->short_name != '\0' and argv[i][offset+1] == j->short_name and argv[i][offset+1] == '\0')) {
+          known_option = true;
           if(j->type == option::Bool) {
             *j->ref.flag = true;
             break;
@@ -145,6 +147,10 @@ bool cmd_options::parse_cmd(int argc, char **argv) const {
           }
           break;
         }
+      }
+      if(not known_option) {
+        cerr << "ERROR: unknown option '" << argv[i] << "'\n";
+        help(argv[0]);
       }
     }
     else if(pimpl->unnamed_args.size() > current_unnamed) {

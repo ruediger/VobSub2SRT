@@ -254,7 +254,11 @@ int main(int argc, char **argv) {
       }
       if(not text) {
         cerr << "ERROR: OCR failed for " << sub_counter << '\n';
-        continue;
+        char const errormsg[] = "VobSub2SRT ERROR: OCR failure!";
+        // using raw memory is evil but that's the way Tesseract works
+        // If we switch to C++11 we can use unique_ptr.
+        text = new char[sizeof(errormsg)];
+        memcpy(text, errormsg, sizeof(errormsg));
       }
       if(verb) {
         cout << sub_counter << " Text: " << text << endl;
