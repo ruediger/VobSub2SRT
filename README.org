@@ -78,8 +78,12 @@ cmake and creating Debian packages.
 
 ** Homebrew
 Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]] (a package manager for OS X).  It can
-be installed by using the command
-=brew install https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb=.
+be installed by using the following commands:
+
+#+BEGIN_EXAMPLE
+  brew install --all-languages tesseract
+  brew install --HEAD https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb
+#+END_EXAMPLE
 
 ** Gentoo ebuild
 An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also available.  You can make it available to
