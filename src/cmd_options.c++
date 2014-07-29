@@ -119,7 +119,7 @@ bool cmd_options::parse_cmd(int argc, char **argv) const {
       bool known_option = false;
       for(std::vector<option>::const_iterator j = pimpl->options.begin(); j != pimpl->options.end(); ++j) {
         if(strcmp(argv[i]+offset, j->name) == 0 or
-           (j->short_name != '\0' and argv[i][offset+1] == j->short_name and argv[i][offset+1] == '\0')) {
+           (j->short_name != '\0' and offset == 1 and argv[i][1] == j->short_name and argv[i][2] == '\0')) {
           known_option = true;
           if(j->type == option::Bool) {
             *j->ref.flag = true;
