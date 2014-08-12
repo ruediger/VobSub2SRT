@@ -257,6 +257,12 @@ int main(int argc, char **argv) {
         text = new char[sizeof(errormsg)];
         memcpy(text, errormsg, sizeof(errormsg));
       }
+      else {
+          size_t size = strlen(text);
+          while (size > 0 and isspace(text[--size])) {
+              text[size] = '\0';
+          }
+      }
       if(verb) {
         cout << sub_counter << " Text: " << text << endl;
       }
