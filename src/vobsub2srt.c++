@@ -72,7 +72,7 @@ void dump_pgm(std::string const &filename, unsigned counter, unsigned width, uns
               unsigned stride, unsigned char const *image, size_t image_size) {
 
   char buf[500];
-  snprintf(buf, sizeof(buf), "%s-%03u.pgm", filename.c_str(), counter);
+  snprintf(buf, sizeof(buf), "%s-%04u.pgm", filename.c_str(), counter);
   FILE *pgm = fopen(buf, "wb");
   if(pgm) {
     fprintf(pgm, "P5\n%u %u %u\n", width, height, 255u);
