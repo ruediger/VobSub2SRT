@@ -276,7 +276,7 @@ int main(int argc, char **argv) {
     if(conv_subs[i].end_pts == UINT_MAX && i+1 < conv_subs.size())
       conv_subs[i].end_pts = conv_subs[i+1].start_pts;
 
-    fprintf(srtout, "%u\n%s --> %s\n%s\n\n", i, pts2srt(conv_subs[i].start_pts).c_str(),
+    fprintf(srtout, "%u\n%s --> %s\n%s\n\n", i+1, pts2srt(conv_subs[i].start_pts).c_str(),
             pts2srt(conv_subs[i].end_pts).c_str(), conv_subs[i].text);
 
     delete[]conv_subs[i].text;
