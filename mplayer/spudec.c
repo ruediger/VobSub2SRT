@@ -1339,8 +1339,17 @@ static void spudec_parse_extradata(spudec_handle_t *this,
   free(buffer);
 }
 
-void *spudec_new_scaled(unsigned int *palette, unsigned int frame_width, unsigned int frame_height, uint8_t *extradata, int extradata_len)
+/**
+ * Test whether Y component of YUV palette entry is under palette threshold.
+ */
+static int spudec_yuv_under_threshold(unsigned int yuv, unsigned int y_threshold)
 {
+  return (yuv >> 16 & 0xFF) < y_threshold;
+}
+
+void *spudec_new_scaled(unsigned int *palette, unsigned int frame_width, unsigned int frame_height, uint8_t *extradata, int extradata_len, unsigned int y_threshold)
+{
+  int i;
   spudec_handle_t *this = calloc(1, sizeof(spudec_handle_t));
   if (this){
     this->orig_frame_height = frame_height;
@@ -1366,12 +1375,22 @@ void *spudec_new_scaled(unsigned int *palette, unsigned int frame_width, unsigne
   }
   else
     mp_msg(MSGT_SPUDEC,MSGL_FATAL, "FATAL: spudec_init: calloc");
+
+// Text with overlapping softer edges can reduce the efficacy of the OCR.
+//   Replace any palette values below threshold with black to create
+//   distinct characters.
+  for (i=0; i<16; i++) {
+    if (spudec_yuv_under_threshold(this->global_palette[i],y_threshold)) {
+      this->global_palette[i]=0;
+    }
+  }
+
   return this;
 }
 
-void *spudec_new(unsigned int *palette)
+void *spudec_new(unsigned int *palette, unsigned int y_threshold)
 {
-    return spudec_new_scaled(palette, 0, 0, NULL, 0);
+    return spudec_new_scaled(palette, 0, 0, NULL, 0, y_threshold);
 }
 
 void spudec_free(void *this)
