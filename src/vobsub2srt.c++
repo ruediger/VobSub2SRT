@@ -234,6 +234,11 @@ int main(int argc, char **argv) {
       }
       last_start_pts = start_pts;
 
+      if(width == 0 || height == 0) {
+        cerr << "ERROR: Empty image " << sub_counter << ", width: " << width << ", height: " << height << ", size: " << image_size << "\n";
+        continue;
+      }
+
       if(verbose > 0 and static_cast<unsigned>(timestamp) != start_pts) {
         cerr << sub_counter << ": time stamp from .idx (" << timestamp
              << ") doesn't match time stamp from .sub ("
