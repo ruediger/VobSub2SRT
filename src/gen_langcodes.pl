@@ -2,7 +2,7 @@
 #
 #  This file is part of vobsub2srt
 #
-#  Copyright (C) 2012 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
+#  Copyright (C) 2012-2015 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
