@@ -155,6 +155,6 @@ Most code is from the MPlayer project.
 - Michal Gawlik fixed the overlapping issue (5b2ccabc55f, #29, #32)
 - "bit" made sure no trailing whitespace are written to the SRT (3a59dc278abc2, #38)
 - Baudouin Raoult for various fixes (028f742, #44, b722a03, #42, 7293ac2, #40)
-
+- Justyn Butler added the y-threshold support (f873761, #43)
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
