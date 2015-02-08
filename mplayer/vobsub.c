@@ -946,7 +946,7 @@ int vobsub_parse_ifo(void* this, const char *const name, unsigned int *palette,
 }
 
 void *vobsub_open(const char *const name, const char *const ifo,
-                  const int force, void** spu)
+                  const int force, unsigned int y_threshold, void** spu)
 {
     unsigned char *extradata = NULL;
     unsigned int extradata_len = 0;
@@ -986,7 +986,7 @@ void *vobsub_open(const char *const name, const char *const ifo,
                 rar_close(fd);
             }
             if (spu)
-                *spu = spudec_new_scaled(vob->palette, vob->orig_frame_width, vob->orig_frame_height, extradata, extradata_len);
+                *spu = spudec_new_scaled(vob->palette, vob->orig_frame_width, vob->orig_frame_height, extradata, extradata_len, y_threshold);
             if (extradata)
                 free(extradata);
 

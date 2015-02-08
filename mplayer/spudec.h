@@ -33,8 +33,8 @@ void spudec_draw(void *self, void (*draw_alpha)(int x0,int y0, int w,int h, unsi
 void spudec_draw_scaled(void *self, unsigned int dxs, unsigned int dys, void (*draw_alpha)(int x0,int y0, int w,int h, unsigned char* src, unsigned char *srca, int stride));
 int spudec_apply_palette_crop(void *self, uint32_t palette, int sx, int ex, int sy, int ey);
 void spudec_update_palette(void *self, unsigned int *palette);
-void *spudec_new_scaled(unsigned int *palette, unsigned int frame_width, unsigned int frame_height, uint8_t *extradata, int extradata_len);
-void *spudec_new(unsigned int *palette);
+void *spudec_new_scaled(unsigned int *palette, unsigned int frame_width, unsigned int frame_height, uint8_t *extradata, int extradata_len, unsigned int y_threshold);
+void *spudec_new(unsigned int *palette, unsigned int y_threshold);
 void spudec_free(void *self);
 void spudec_reset(void *self);	// called after seek
 int spudec_visible(void *self); // check if spu is visible

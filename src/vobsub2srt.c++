@@ -102,6 +102,7 @@ int main(int argc, char **argv) {
   std::string blacklist;
   std::string tesseract_data_path = TESSERACT_DATA_PATH;
   int index = -1;
+  int y_threshold = 0;
 
   {
     cmd_options opts;
@@ -115,6 +116,7 @@ int main(int argc, char **argv) {
       add_option("tesseract-lang", tess_lang_user, "set tesseract language (Default: auto detect)").
       add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
       add_option("blacklist", blacklist, "Character blacklist to improve the OCR (e.g. \"|\\/`_~<>\")").
+      add_option("y-threshold", y_threshold, "Y (luminance) threshold below which colors treated as black (Default: 0)").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
     if(not opts.parse_cmd(argc, argv) or subname.empty()) {
       return 1;
@@ -125,9 +127,14 @@ int main(int argc, char **argv) {
   verbose = verb; // mplayer verbose level
   mp_msg_init();
 
+  // Set Y threshold from command-line arg only if given
+  if (y_threshold) {
+    cout << "Using Y palette threshold: " << y_threshold << "\n";
+  }
+
   // Open the sub/idx subtitles
   spu_t spu;
-  vob_t vob = vobsub_open(subname.c_str(), ifo_file.empty() ? 0x0 : ifo_file.c_str(), 1, &spu);
+  vob_t vob = vobsub_open(subname.c_str(), ifo_file.empty() ? 0x0 : ifo_file.c_str(), 1, y_threshold, &spu);
   if(not vob or vobsub_get_indexes_count(vob) == 0) {
     cerr << "Couldn't open VobSub files '" << subname << ".idx/.sub'\n";
     return 1;

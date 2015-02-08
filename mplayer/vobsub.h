@@ -25,7 +25,7 @@ extern "C" {
 
 extern int vobsub_id; // R: moved from mpcommon.h
 
-void *vobsub_open(const char *subname, const char *const ifo, const int force, void** spu);
+void *vobsub_open(const char *subname, const char *const ifo, const int force, unsigned int y_threshold, void** spu);
 void vobsub_reset(void *vob);
 int vobsub_parse_ifo(void* self, const char *const name, unsigned int *palette, unsigned int *width, unsigned int *height, int force, int sid, char *langid);
 int vobsub_get_packet(void *vobhandle, float pts,void** data, int* timestamp);
