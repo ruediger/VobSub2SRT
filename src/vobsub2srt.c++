@@ -256,6 +256,10 @@ int main(int argc, char **argv) {
         dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
       }
 
+      // invisible (alpha==0) pictures get cropped to nothing, skip OCR
+      if (!width || !height)
+          continue;
+
 #ifdef CONFIG_TESSERACT_NAMESPACE
       char *text = tess_base_api.TesseractRect(image, 1, stride, 0, 0, width, height);
 #else
