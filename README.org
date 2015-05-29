@@ -156,5 +156,7 @@ Most code is from the MPlayer project.
 - "bit" made sure no trailing whitespace are written to the SRT (3a59dc278abc2, #38)
 - Baudouin Raoult for various fixes (028f742, #44, b722a03, #42, 7293ac2, #40)
 - Justyn Butler added the y-threshold support (f873761, #43)
+- James Laird added min-width/height support (41c6844, #48)
+- Filirom1 fixed a minor issue (4ed58c2, #49)
 * To Do
 - implement preprocessing (first step scaling. Code available in =spudec.c=)
