@@ -103,6 +103,8 @@ int main(int argc, char **argv) {
   std::string tesseract_data_path = TESSERACT_DATA_PATH;
   int index = -1;
   int y_threshold = 0;
+  int min_width = 9;
+  int min_height = 1;
 
   {
     cmd_options opts;
@@ -117,6 +119,8 @@ int main(int argc, char **argv) {
       add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
       add_option("blacklist", blacklist, "Character blacklist to improve the OCR (e.g. \"|\\/`_~<>\")").
       add_option("y-threshold", y_threshold, "Y (luminance) threshold below which colors treated as black (Default: 0)").
+      add_option("min-width", min_width, "Minimum width in pixels to consider a subpicture for OCR (Default: 9)").
+      add_option("min-height", min_height, "Minimum height in pixels to consider a subpicture for OCR (Default: 1)").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
     if(not opts.parse_cmd(argc, argv) or subname.empty()) {
       return 1;
@@ -241,8 +245,9 @@ int main(int argc, char **argv) {
       }
       last_start_pts = start_pts;
 
-      if(width == 0 or height == 0) {
-        cerr << "ERROR: Empty image " << sub_counter << ", width: " << width << ", height: " << height << ", size: " << image_size << "\n";
+      if(width < (unsigned int)min_width || height < (unsigned int)min_height) {
+        cerr << "WARNING: Image too small " << sub_counter << ", size: " << image_size << " bytes, "
+             << width << "x" << height << " pixels, expected at least " << min_width << "x" << min_height << "\n"
         continue;
       }
 
