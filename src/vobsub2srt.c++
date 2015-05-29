@@ -247,7 +247,7 @@ int main(int argc, char **argv) {
 
       if(width < (unsigned int)min_width || height < (unsigned int)min_height) {
         cerr << "WARNING: Image too small " << sub_counter << ", size: " << image_size << " bytes, "
-             << width << "x" << height << " pixels, expected at least " << min_width << "x" << min_height << "\n"
+             << width << "x" << height << " pixels, expected at least " << min_width << "x" << min_height << "\n";
         continue;
       }
 
