@@ -107,6 +107,9 @@ int main(int argc, char **argv) {
   int min_height = 1;
 
   {
+    /************************************************************************************
+     * Any option added here should be added to doc/vobsub2srt.1 and doc/completion.sh! *
+     ************************************************************************************/
     cmd_options opts;
     opts.
       add_option("dump-images", dump_images, "dump subtitles as image files (<subname>-<number>.pgm).").

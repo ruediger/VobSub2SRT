@@ -37,6 +37,15 @@ Set path to tesseract-data.
 .TP
 \fB\-\-blacklist\fR \fIblacklist\fR
 Blacklist characters for OCR (e.g. |\\/`_~<>)
+.TP
+\fB\-\-y-threshold\fR \fIthreshold\fR
+Y (luminance) threshold below which colors treated as black (Default: 0).
+.TP
+\fB\-\-min-width\fR \fIwidth\fR
+Minimum width in pixels to consider a subpicture for OCR (Default: 9).
+.TP
+\fB\-\-min-height\fR \fIheight\fR
+Minimum height in pixels to consider a subpicture for OCR (Default: 1).
 .SH EXAMPLES
 .nf
   $ \fBvobsub2srt \-\-lang en foobar\fR
