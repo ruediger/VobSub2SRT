@@ -184,13 +184,13 @@ void cmd_options::help(char const *progname) const {
     if(i->short_name != '\0') {
       cerr << " (or -" << i->short_name << ')';
     }
-    cerr << "\t... " << i->description << '\n';
+    cerr << "\t" << i->description << '\n';
   }
   if(handle_help) {
-    cerr << "\t--help (or -h)\t... show help information\n";
+    cerr << "\t--help (or -h)\tshow help information\n";
   }
   for(std::vector<unnamed>::const_iterator i = pimpl->unnamed_args.begin(); i != pimpl->unnamed_args.end(); ++i) {
-    cerr << "\t<" << i->name << ">\t... " << i->description << '\n';
+    cerr << "\t<" << i->name << ">\t" << i->description << '\n';
   }
   exit = true;
 }
