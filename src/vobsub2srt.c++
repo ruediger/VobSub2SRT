@@ -201,9 +201,10 @@ int main(int argc, char **argv) {
   }
 
   // Init Tesseract
-  char const *tess_path = tesseract_data_path.c_str();
-  if (!strcmp(tess_path, TESSERACT_DEFAULT_PATH))
-      tess_path = NULL;
+  char const *tess_path = NULL;
+  if (tesseract_data_path != TESSERACT_DEFAULT_PATH)
+    tess_path = tesseract_data_path.c_str();
+
 #ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
   if(tess_base_api.Init(tess_path, tess_lang) == -1) {
