@@ -87,8 +87,9 @@ void dump_pgm(std::string const &filename, unsigned counter, unsigned width, uns
 using namespace tesseract;
 #endif
 
+#define TESSERACT_DEFAULT_PATH "<builtin default>"
 #ifndef TESSERACT_DATA_PATH
-#define TESSERACT_DATA_PATH "/usr/share/tesseract-ocr/tessdata" // TODO check this in cmake
+#define TESSERACT_DATA_PATH TESSERACT_DEFAULT_PATH
 #endif
 
 int main(int argc, char **argv) {
@@ -200,9 +201,12 @@ int main(int argc, char **argv) {
   }
 
   // Init Tesseract
+  char const *tess_path = tesseract_data_path.c_str();
+  if (!strcmp(tess_path, TESSERACT_DEFAULT_PATH))
+      tess_path = NULL;
 #ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
-  if(tess_base_api.Init(tesseract_data_path.c_str(), tess_lang) == -1) {
+  if(tess_base_api.Init(tess_path, tess_lang) == -1) {
     cerr << "Failed to initialize tesseract (OCR).\n";
     return 1;
   }
@@ -210,7 +214,7 @@ int main(int argc, char **argv) {
     tess_base_api.SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
 #else
-  TessBaseAPI::SimpleInit(tesseract_data_path.c_str(), tess_lang, false); // TODO params
+  TessBaseAPI::SimpleInit(tess_path, tess_lang, false); // TODO params
   if(not blacklist.empty()) {
     TessBaseAPI::SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
