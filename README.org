@@ -31,13 +31,7 @@ future!
 #+END_EXAMPLE
 
 This should install the program vobsub2srt to =/usr/local/bin=.  You can
-uninstall vobsub2srt with =sudo make uninstall=.  If you want to install the
-bash completion script then set the =BASH_COMPLETION_PATH= parameter:
-
-#+BEGIN_EXAMPLE
-  ./configure -DBASH_COMPLETION_PATH="$(pkg-config --variable=completionsdir bash-completion)"
-#+END_EXAMPLE
-
+uninstall vobsub2srt with =sudo make uninstall=.
 ** Static binary
 I recommend using the dynamic binary! However if you really need a static binary
 you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call.  But be
