@@ -1,6 +1,6 @@
 # Tesseract OCR
 
-if(Tesseract_INCLUDE_DIR AND Tesseract_LIBRARIES)
+if(Tesseract_INCLUDE_DIRS AND Tesseract_LIBRARIES)
   set(Tesseract_FIND_QUIETLY TRUE)
 endif()
 
@@ -9,7 +9,7 @@ find_package(PkgConfig)
 pkg_check_modules(Tesseract tesseract)
 
 if(NOT Tesseract_FOUND) # TODO: see Tesseract_STATIC for BUILD_STATIC
-  find_path(Tesseract_INCLUDE_DIR tesseract/baseapi.h
+  find_path(Tesseract_INCLUDE_DIRS tesseract/baseapi.h
     HINTS
     /usr/include
     /usr/local/include)
@@ -44,7 +44,7 @@ if(NOT Tesseract_FOUND) # TODO: see Tesseract_STATIC for BUILD_STATIC
 
   endif()
 
-  set(CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIRS})
   check_cxx_source_compiles(
     "#include \"tesseract/baseapi.h\"
    using namespace tesseract;
@@ -56,7 +56,7 @@ if(NOT Tesseract_FOUND) # TODO: see Tesseract_STATIC for BUILD_STATIC
   else()
     message(WARNING "You are using an old Tesseract version. Support for Tesseract 2 is deprecated and will be removed in the future!")
   endif()
-  list(REMOVE_ITEM CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
+  list(REMOVE_ITEM CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIRS})
 
   if(BUILD_STATIC)
     set(Tesseract_LIBRARIES ${Tesseract_LIBRARIES} ${Lept_LIBRARY} ${PNG_LIBRARY} ${Tiff_LIBRARY} ${Webp_LIBRARY} ${GIF_LIBRARY} ${JPEG_LIBRARY} ${ZLIB_LIBRARY})
@@ -71,5 +71,5 @@ endif()
 
 include(FindPackageHandleStandardArgs)
 
-find_package_handle_standard_args(Tesseract DEFAULT_MSG Tesseract_LIBRARIES Tesseract_INCLUDE_DIR)
-mark_as_advanced(Tesseract_INCLUDE_DIR Tesseract_LIBRARIES)
+find_package_handle_standard_args(Tesseract DEFAULT_MSG Tesseract_LIBRARIES Tesseract_INCLUDE_DIRS)
+mark_as_advanced(Tesseract_INCLUDE_DIRS Tesseract_LIBRARIES)
