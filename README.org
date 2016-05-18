@@ -84,10 +84,10 @@ An [[http://en.wikipedia.org/wiki/Ebuild][ebuild]] for Gentoo Linux is also avai
 emerge with the following steps
 
 #+BEGIN_EXAMPLE
-  sudo mkdir -p /usr/local/portage/media/video/vobsub2srt/
+  sudo mkdir -p /usr/local/portage/media-video/vobsub2srt/
   wget https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt-9999.ebuild
-  sudo mv vobsub2srt-9999.ebuild /usr/local/portage/media/video/vobsub2srt/
-  cd /usr/local/portage/media/video/vobsub2srt/
+  sudo mv vobsub2srt-9999.ebuild /usr/local/portage/media-video/vobsub2srt/
+  cd /usr/local/portage/media-video/vobsub2srt/
   sudo ebuild vobsub2srt-999.ebuild digest
 #+END_EXAMPLE
 
