@@ -13,16 +13,23 @@ and scaling options to improve the OCR. You can correct mistakes in the =.srt=
 files with a text editor or a special subtitle editor.
 
 * Building
-You need tesseract. You also need cmake and a gcc to build it.
-With Ubuntu 12.10 you can install the dependencies with
+You need the tesseract library and standard build tools.
+
+With Ubuntu 16.04 you can install the dependencies with
 
 #+BEGIN_EXAMPLE
-  sudo apt-get install libtiff5-dev libtesseract-dev tesseract-ocr-eng build-essential cmake pkg-config
+  sudo apt-get install libtesseract-dev libleptonica-dev tesseract-ocr-eng build-essential pkg-config
 #+END_EXAMPLE
 
 You should also install the tesseract data for the languages you want to use!
-Note that the support for tesseract 2 is deprecated and will be removed in the
-future!
+
+If you have checked out the source from git you should run
+
+#+BEGIN_EXAMPLE
+  aclocal && autoconf && automake --add-missing
+#+END_EXAMPLE
+
+and then compilation is simple
 
 #+BEGIN_EXAMPLE
   ./configure
@@ -32,25 +39,6 @@ future!
 
 This should install the program vobsub2srt to =/usr/local/bin=.  You can
 uninstall vobsub2srt with =sudo make uninstall=.
-** Static binary
-I recommend using the dynamic binary! However if you really need a static binary
-you can add the flag =-DBUILD_STATIC=ON= to the =./configure= call.  But be
-aware that building static binaries can be quite troublesome. You need the
-static library files for tesseract, libtill, libavutils, and for their
-dependencies as well.  On Ubuntu 12.04 the static libraries are only included in
-the dev packages! You probably also need the Gold linker.
-
-For Ubuntu 12.04 you need the following extra packages:
-
-#+BEGIN_EXAMPLE
-  sudo apt-get install libleptonica-dev libpng12-dev libwebp-dev libgif-dev zlib1g-dev libjpeg-dev binutils-gold
-#+END_EXAMPLE
-
-If linking fails with undefined references then checking what other dependencies
-your version of leptonica has is a good starting point. You can do this by
-running =ldd /usr/lib/liblept.so= (or whatever the path to leptonica is on your
-system). Add those dependencies to =CMakeModules/FindTesseract.cmake=.
-
 ** Ubuntu PPA and .deb packages
 I have created a [[https://launchpad.net/~ruediger-c-plusplus/+archive/vobsub2srt][PPA (Personal Package Archive)]] to make installation on
 Ubuntu easy.  Simply add the PPA to your apt-get sources and run an update and

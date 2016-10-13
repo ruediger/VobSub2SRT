@@ -19,9 +19,9 @@
  */
 
 // MPlayer stuff
-#include "mp_msg.h" // mplayer message framework
-#include "vobsub.h"
-#include "spudec.h"
+#include "mplayer/mp_msg.h" // mplayer message framework
+#include "mplayer/vobsub.h"
+#include "mplayer/spudec.h"
 
 // Tesseract OCR
 #include "tesseract/baseapi.h"
@@ -83,9 +83,7 @@ void dump_pgm(std::string const &filename, unsigned counter, unsigned width, uns
   }
 }
 
-#ifdef CONFIG_TESSERACT_NAMESPACE
 using namespace tesseract;
-#endif
 
 #define TESSERACT_DEFAULT_PATH "<builtin default>"
 #ifndef TESSERACT_DATA_PATH
@@ -205,7 +203,6 @@ int main(int argc, char **argv) {
   if (tesseract_data_path != TESSERACT_DEFAULT_PATH)
     tess_path = tesseract_data_path.c_str();
 
-#ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
   if(tess_base_api.Init(tess_path, tess_lang) == -1) {
     cerr << "Failed to initialize tesseract (OCR).\n";
@@ -214,12 +211,6 @@ int main(int argc, char **argv) {
   if(not blacklist.empty()) {
     tess_base_api.SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
-#else
-  TessBaseAPI::SimpleInit(tess_path, tess_lang, false); // TODO params
-  if(not blacklist.empty()) {
-    TessBaseAPI::SetVariable("tessedit_char_blacklist", blacklist.c_str());
-  }
-#endif
 
   // Open srt output file
   string const srt_filename = subname + ".srt";
@@ -269,11 +260,7 @@ int main(int argc, char **argv) {
         dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
       }
 
-#ifdef CONFIG_TESSERACT_NAMESPACE
       char *text = tess_base_api.TesseractRect(image, 1, stride, 0, 0, width, height);
-#else
-      char *text = TessBaseAPI::TesseractRect(image, 1, stride, 0, 0, width, height);
-#endif
       if(not text) {
         cerr << "ERROR: OCR failed for " << sub_counter << '\n';
         char const errormsg[] = "VobSub2SRT ERROR: OCR failure!";
@@ -308,11 +295,7 @@ int main(int argc, char **argv) {
     conv_subs[i].text = 0x0;
   }
 
-#ifdef CONFIG_TESSERACT_NAMESPACE
   tess_base_api.End();
-#else
-  TessBaseAPI::End();
-#endif
   fclose(srtout);
   cout << "Wrote Subtitles to '" << srt_filename << "'\n";
   vobsub_close(vob);
