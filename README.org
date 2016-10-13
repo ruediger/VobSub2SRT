@@ -26,10 +26,10 @@ You should also install the tesseract data for the languages you want to use!
 If you have checked out the source from git you should run
 
 #+BEGIN_EXAMPLE
-  aclocal && autoconf && automake --add-missing
+  ./bootstrap
 #+END_EXAMPLE
 
-and then compilation is simple
+Compilation then follows the common procedure of
 
 #+BEGIN_EXAMPLE
   ./configure
