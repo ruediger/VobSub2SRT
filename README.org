@@ -75,7 +75,7 @@ Vobsub2srt contains a formula for [[http://mxcl.github.com/homebrew/][Homebrew]]
 be installed by using the following commands:
 
 #+BEGIN_EXAMPLE
-  brew install --all-languages tesseract
+  brew install --with-all-languages tesseract
   brew install --HEAD https://github.com/ruediger/VobSub2SRT/raw/master/packaging/vobsub2srt.rb
 #+END_EXAMPLE
 
