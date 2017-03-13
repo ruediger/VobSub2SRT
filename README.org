@@ -66,6 +66,14 @@ you can install the =vobsub2srt= package:
 You can build a *.deb package (Debian/Ubuntu) with =make package=.  The package
 is created in the =build= directory.
 
+*** .rpm (Centos/RHEL/Fedora)
+#+BEGIN_EXAMPLE
+  sudo yum install -y cmake tesseract-devel dpkg libtiff-devel libwebp-devel libpng-devel giflib-devel
+  ./configure -DBUILD_STATIC=ON
+  make
+#+END_EXAMPLE
+
+
 You can also create a source package and upload it to your own PPA by using the
 =UploadPPA.cmake=. But this is only recommended for people experienced with
 cmake and creating Debian packages.
