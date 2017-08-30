@@ -12,7 +12,7 @@ class Vobsub2srt < Formula
   depends_on 'ffmpeg'
 
   def install
-    system "./configure #{std_cmake_parameters}"
+    system "./configure #{std_cmake_args}"
     system "make install"
   end
 end
