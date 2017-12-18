@@ -94,9 +94,20 @@ emerge with the following steps
 You should be able to install vobsub2srt with =emerge vobsub2srt= now.  If you
 want to use a newer version (3+) of tesseract you have to use layman.
 See [[https://github.com/ruediger/VobSub2SRT/issues/13][#13]] for details.
+
 ** Arch AUR
 There also exist a [[https://wiki.archlinux.org/index.php/PKGBUILD][PKGBUILD]] file for Arch Linux in AUR:
 https://aur.archlinux.org/packages/vobsub2srt-git
+
+** openSUSE
+vobsub2srt has been packaged by the openSUSE community, and is available from the [[https://software.opensuse.org/package/vobsub2srt][Open Build Service]].
+As it is not in the official repositories, you'll need to add =multimedia:libs= as an additional repository:
+
+#+BEGIN_EXAMPLE
+  sudo zypper ar -f obs://multimedia:libs obs-multimedia-libs
+  sudo zypper in vobsub2srt
+#+END_EXAMPLE
+
 * Usage
 vobsub2srt converts subtitles in VobSub (=.idx= / =.sub=) format into subtitles
 in =.srt= format.  VobSub subtitles consist of two or three files called
