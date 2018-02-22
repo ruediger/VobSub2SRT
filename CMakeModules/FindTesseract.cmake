@@ -50,10 +50,8 @@ check_cxx_source_compiles(
    int main() {
    }"
   TESSERACT_NAMESPACE)
-if(TESSERACT_NAMESPACE)
-  add_definitions("-DCONFIG_TESSERACT_NAMESPACE")
-else()
-  message(WARNING "You are using an old Tesseract version. Support for Tesseract 2 is deprecated and will be removed in the future!")
+if(NOT TESSERACT_NAMESPACE)
+  message(FATAL_ERROR "You are using an old Tesseract version. Support for Tesseract 2 has been removed when implementing multithreading.")
 endif()
 list(REMOVE_ITEM CMAKE_REQUIRED_INCLUDES ${Tesseract_INCLUDE_DIR})
 
