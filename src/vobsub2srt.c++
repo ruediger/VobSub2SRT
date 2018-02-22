@@ -142,6 +142,16 @@ void do_ocr(TessBaseAPI *tess_base_api, atomic<bool> *done, vector<sub_text_t> *
   done->store(true);
 }
 
+void invert_image(unsigned width, unsigned height,
+                  unsigned stride, unsigned char *image) {
+  for (unsigned y=0; y < height; y++) {
+    for (unsigned x=0; x < width; x++) {
+      unsigned index = y*stride + x;
+      image[index] = 255 - image[index];
+    }
+  }
+}
+
 struct ocr_thread_t {
   ocr_thread_t(TessBaseAPI *tess_base_api)
     : tess_base_api(tess_base_api)
@@ -153,6 +163,7 @@ struct ocr_thread_t {
 
 int main(int argc, char **argv) {
   bool dump_images = false;
+  bool disable_invert = false;
   bool verb = false;
   bool list_languages = false;
   std::string ifo_file;
@@ -186,6 +197,7 @@ int main(int argc, char **argv) {
       add_option("min-width", min_width, "Minimum width in pixels to consider a subpicture for OCR (Default: 9)").
       add_option("min-height", min_height, "Minimum height in pixels to consider a subpicture for OCR (Default: 1)").
       add_option("max-threads", max_threads, "Maximum number of threads to use to do the OCR, use 0 to autodetect the number of cores (Default: 0)").
+      add_option("disable-invert", disable_invert, "By default the image will be inverted before the OCR because it works better with black on white background, disable it").
       add_unnamed(subname, "subname", "name of the subtitle files WITHOUT .idx/.sub ending! (REQUIRED)");
     if(not opts.parse_cmd(argc, argv) or subname.empty()) {
       return 1;
@@ -343,6 +355,9 @@ int main(int argc, char **argv) {
 
       unsigned char *image_cpy = (unsigned char *)malloc(image_size);
       memcpy(image_cpy, image, image_size);
+
+      if (!disable_invert)
+        invert_image(width, height, stride, image_cpy);
 
       if (max_threads == 1)
         do_ocr(ocr_thread->tess_base_api, &ocr_thread->done, &conv_subs, &mut, sub_counter, width, height, stride, image_cpy, start_pts, end_pts, verb);

@@ -49,6 +49,8 @@ Minimum height in pixels to consider a subpicture for OCR (Default: 1).
 .TP
 \fB\-\-max\-threads\fR \fInb\fR
 Maximum number of threads to use to do the OCR, use 0 to autodetect the number of cores (Default: 0).
+\fB\-\-disable\-invert\fR
+By default the image will be inverted before the OCR because it works better with black on white background, disable it.
 .SH EXAMPLES
 .nf
   $ \fBvobsub2srt \-\-lang en foobar\fR
