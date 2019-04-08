@@ -102,6 +102,7 @@ int main(int argc, char **argv) {
   std::string tess_lang_user;
   std::string blacklist;
   std::string tesseract_data_path = TESSERACT_DATA_PATH;
+  int tesseract_oem = 1;
   int index = -1;
   int y_threshold = 0;
   int min_width = 9;
@@ -121,6 +122,7 @@ int main(int argc, char **argv) {
       add_option("index", index, "subtitle index", 'i').
       add_option("tesseract-lang", tess_lang_user, "set tesseract language (Default: auto detect)").
       add_option("tesseract-data", tesseract_data_path, "path to tesseract data (Default: " TESSERACT_DATA_PATH ")").
+      add_option("tesseract-oem", tesseract_oem, "Tesseract Engine mode to use").
       add_option("blacklist", blacklist, "Character blacklist to improve the OCR (e.g. \"|\\/`_~<>\")").
       add_option("y-threshold", y_threshold, "Y (luminance) threshold below which colors treated as black (Default: 0)").
       add_option("min-width", min_width, "Minimum width in pixels to consider a subpicture for OCR (Default: 9)").
@@ -202,12 +204,20 @@ int main(int argc, char **argv) {
 
   // Init Tesseract
   char const *tess_path = NULL;
+  OcrEngineMode tess_oem = OEM_TESSERACT_ONLY;
   if (tesseract_data_path != TESSERACT_DEFAULT_PATH)
     tess_path = tesseract_data_path.c_str();
+  if (tesseract_oem != 1) {
+    switch(tesseract_oem) {
+      case 0 : tess_oem = OEM_TESSERACT_ONLY; break;
+      case 2 : tess_oem = OEM_TESSERACT_LSTM_COMBINED; break;
+      case 3 : tess_oem = OEM_DEFAULT; break;
+    }
+  }
 
 #ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
-  if(tess_base_api.Init(tess_path, tess_lang) == -1) {
+  if(tess_base_api.Init(tess_path, tess_lang, tess_oem) == -1) {
     cerr << "Failed to initialize tesseract (OCR).\n";
     return 1;
   }
@@ -215,7 +225,7 @@ int main(int argc, char **argv) {
     tess_base_api.SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
 #else
-  TessBaseAPI::SimpleInit(tess_path, tess_lang, false); // TODO params
+  TessBaseAPI::SimpleInit(tess_path, tess_lang, tess_oem, false); // TODO params
   if(not blacklist.empty()) {
     TessBaseAPI::SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
