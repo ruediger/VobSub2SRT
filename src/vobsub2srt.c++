@@ -265,6 +265,25 @@ int main(int argc, char **argv) {
              << start_pts << ")\n";
       }
 
+
+      // While tesseract version 3.05 (and older) handle inverted image (dark background and light text) without problem, for 4.x version use dark text on light background.
+      // https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#inverting-images
+
+      bool inverting_images = true;
+
+      if (inverting_images) {
+        int size_r = width * height;
+        unsigned char* image_rev = new unsigned char[size_r];
+        for (int i = 0; i < size_r; i++)
+        {
+            int val = static_cast<int>(image[i]);
+            unsigned char cz = (255 -  val);
+            image_rev[i] = cz;
+        }
+
+        image = image_rev;
+      }
+
       if(dump_images) {
         dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
       }
