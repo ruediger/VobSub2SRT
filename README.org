@@ -5,6 +5,9 @@ ADDED from main branch oem option:
 
 option to vobsub2srt for use with Tesseract 4. Generally I use --tesseract-oem 1 with the following tesseract 4 traindata:
 https://github.com/tesseract-ocr/tesseract/wiki/Data-Files
+My use:
+
+$ vobsub2srt --tesseract-data /home/bubonic/git/tessdata --tesseract-oem 1
 
 This reduced my OCR erros significantly. Even improvement over tesseract 3. Experiment which oem engine you like.  
 --------------------------------------------------------------------------
