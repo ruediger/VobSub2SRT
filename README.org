@@ -1,5 +1,5 @@
-# ADDED from main branch
 --------------------------------------------------------------------------
+ADDED from main branch oem option:
 
 --tesseract-oem n
 
