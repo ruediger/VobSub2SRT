@@ -54,7 +54,7 @@ include(CheckCXXSourceCompiles)
 include(CheckCXXSourceRuns)
 
 set(CMAKE_C_FLAGS "-std=gnu99")
-set(CMAKE_CXX_FLAGS "-ansi -pedantic -Wall -Wextra -Wno-long-long")
+set(CMAKE_CXX_FLAGS "-ansi -pedantic -Wall -Wextra -Wno-long-long -std=gnu++11")
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -mtune=native -march=native -DNDEBUG -fomit-frame-pointer -ffast-math") # TODO -Ofast GCC 4.6
 set(CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
