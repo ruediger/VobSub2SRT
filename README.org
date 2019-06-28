@@ -1,7 +1,13 @@
-ADDED --tesseract-oem option to vobsub2srt for use with Tesseract 4. Generally I use --tesseract-oem 1 with the following tesseract 4 traindata:
+--------------------------------------------------------------------------
+# ADDED from main branch
+
+--tesseract-oem n
+
+option to vobsub2srt for use with Tesseract 4. Generally I use --tesseract-oem 1 with the following tesseract 4 traindata:
 https://github.com/tesseract-ocr/tesseract/wiki/Data-Files
 
-This reduced my OCR erros significantly. 
+This reduced my OCR erros significantly. Even improvement over tesseract 3. Experiment which oem engine you like.  
+--------------------------------------------------------------------------
 
 # -*- mode:org; mode:auto-fill; fill-column:80; coding:utf-8; -*-
 VobSub2SRT is a simple command line program to convert =.idx= / =.sub= subtitles
