@@ -50,7 +50,7 @@ struct sub_text_t {
 /** Converts time stamp in pts format to a string containing the time stamp for the srt format
  *
  * pts (presentation time stamp) is given with a 90kHz resolution (1/90 ms).
- * srt expects a time stamp as  HH:MM:SS:MSS.
+ * srt expects a time stamp as HH:MM:SS,MSS.
  */
 std::string pts2srt(unsigned pts) {
   unsigned ms = pts/90;
@@ -61,7 +61,7 @@ std::string pts2srt(unsigned pts) {
   unsigned const s = ms / 1000;
   ms %= 1000;
 
-  enum { length = sizeof("HH:MM:SS,MSS") };
+  enum { length = 4*sizeof(h) };
   char buf[length];
   snprintf(buf, length, "%02d:%02d:%02d,%03d", h, m, s, ms);
   return std::string(buf);
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
   std::string tess_lang_user;
   std::string blacklist;
   std::string tesseract_data_path = TESSERACT_DATA_PATH;
-  int tesseract_oem = 1;
+  int tesseract_oem = 3;
   int index = -1;
   int y_threshold = 0;
   int min_width = 9;
@@ -204,14 +204,14 @@ int main(int argc, char **argv) {
 
   // Init Tesseract
   char const *tess_path = NULL;
-  OcrEngineMode tess_oem = OEM_TESSERACT_ONLY;
+  OcrEngineMode tess_oem = OEM_DEFAULT;
   if (tesseract_data_path != TESSERACT_DEFAULT_PATH)
     tess_path = tesseract_data_path.c_str();
-  if (tesseract_oem != 1) {
+  if (tesseract_oem != 3) {
     switch(tesseract_oem) {
       case 0 : tess_oem = OEM_TESSERACT_ONLY; break;
+      case 1 : tess_oem = OEM_LSTM_ONLY; break;
       case 2 : tess_oem = OEM_TESSERACT_LSTM_COMBINED; break;
-      case 3 : tess_oem = OEM_DEFAULT; break;
     }
   }
 
