@@ -17,9 +17,12 @@ ARG VERSION=v1.0pre7
 ARG TARGET=debian
 
 FROM alpine AS source
-RUN apk add git
+RUN apk add git curl patch
 ARG VERSION
 RUN git clone --depth=1 -b $VERSION https://github.com/ruediger/VobSub2SRT /source
+WORKDIR /source
+RUN curl -sSfLO https://github.com/ruediger/VobSub2SRT/pull/72.patch
+RUN patch -p1 < 72.patch
 
 FROM debian:buster AS build-debian
 RUN --mount=type=cache,id=apt,target=/var/cache/apt \
