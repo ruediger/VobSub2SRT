@@ -12,6 +12,7 @@
 # Build targets supported:
 # docker build --build-arg=TARGET=pld packaging
 # docker build --build-arg=TARGET=debian packaging
+# docker build --build-arg=TARGET=fedora packaging
 
 ARG VERSION=v1.0pre7
 ARG TARGET=debian
@@ -33,6 +34,11 @@ FROM registry.gitlab.com/pld-linux/pld AS build-pld
 RUN --mount=type=cache,id=poldek,target=/var/cache/poldek \
 	poldek -O 'keep downloads=yes' --up -u \
 	cmake gzip libtiff-devel make tesseract-devel
+
+FROM fedora:31 AS build-fedora
+RUN --mount=type=cache,id=dnf,target=/var/cache/dnf \
+	dnf install -y \
+	cmake g++ libtiff-devel make tesseract-devel
 
 FROM build-$TARGET AS build
 WORKDIR /build
