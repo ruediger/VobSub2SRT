@@ -25,17 +25,32 @@ WORKDIR /source
 RUN curl -sSfLO https://github.com/ruediger/VobSub2SRT/pull/72.patch
 RUN patch -p1 < 72.patch
 
-FROM debian:buster AS build-debian
+## Debian
+FROM debian:buster AS runtime-debian
 RUN --mount=type=cache,id=apt,target=/var/cache/apt \
 	apt update && apt install -y \
+	libtesseract4
+FROM runtime-debian AS build-debian
+RUN --mount=type=cache,id=apt,target=/var/cache/apt \
+	apt install -y \
 	build-essential cmake libtesseract-dev libtiff5-dev pkg-config tesseract-ocr-eng
 
-FROM registry.gitlab.com/pld-linux/pld AS build-pld
+## PLD Linux
+FROM registry.gitlab.com/pld-linux/pld AS runtime-pld
 RUN --mount=type=cache,id=poldek,target=/var/cache/poldek \
 	poldek -O 'keep downloads=yes' --up -u \
+	tesseract
+FROM runtime-pld AS build-pld
+RUN --mount=type=cache,id=poldek,target=/var/cache/poldek \
+	poldek -O 'keep downloads=yes' -u \
 	cmake gzip libtiff-devel make tesseract-devel
 
-FROM fedora:31 AS build-fedora
+## Fedora Linux
+FROM fedora:31 AS runtime-fedora
+RUN --mount=type=cache,id=dnf,target=/var/cache/dnf \
+	dnf install -y \
+	tesseract
+FROM runtime-fedora AS build-fedora
 RUN --mount=type=cache,id=dnf,target=/var/cache/dnf \
 	dnf install -y \
 	cmake g++ libtiff-devel make tesseract-devel
@@ -46,3 +61,7 @@ COPY --from=source /source .
 RUN ./configure
 RUN make
 RUN make install
+RUN strip /usr/local/bin/*
+
+FROM runtime-$TARGET AS runtime
+COPY --from=build /usr/local/bin/* /usr/local/bin
