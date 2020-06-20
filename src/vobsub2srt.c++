@@ -92,6 +92,19 @@ using namespace tesseract;
 #define TESSERACT_DATA_PATH TESSERACT_DEFAULT_PATH
 #endif
 
+struct ImageInverter {
+    ImageInverter(const unsigned char* image, size_t image_size)
+      : inverted_image(new unsigned char[image_size])
+    {
+      for (size_t i = 0; i < image_size; ++i) {
+        inverted_image[i] = 255 - image[i];
+      }
+    }
+    ~ImageInverter() { delete[] inverted_image; }
+
+    unsigned char* inverted_image;
+};
+
 int main(int argc, char **argv) {
   bool dump_images = false;
   bool verb = false;
@@ -265,24 +278,17 @@ int main(int argc, char **argv) {
              << start_pts << ")\n";
       }
 
-
-      // While tesseract version 3.05 (and older) handle inverted image (dark background and light text) without problem, for 4.x version use dark text on light background.
+      // While tesseract version 3.05 (and older) handle inverted image (dark
+      // background and light text) without problem, for 4.x version use dark
+      // text on light background.
       // https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#inverting-images
 
-      bool inverting_images = true;
+      #ifdef INVERT_IMAGES
 
-      if (inverting_images) {
-        int size_r = width * height;
-        unsigned char* image_rev = new unsigned char[size_r];
-        for (int i = 0; i < size_r; i++)
-        {
-            int val = static_cast<int>(image[i]);
-            unsigned char cz = (255 -  val);
-            image_rev[i] = cz;
-        }
+      ImageInverter inverter(image, width*height);
+      image = inverter.inverted_image;
 
-        image = image_rev;
-      }
+      #endif // INVERT_IMAGES
 
       if(dump_images) {
         dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
