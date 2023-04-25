@@ -269,6 +269,22 @@ int main(int argc, char **argv) {
         dump_pgm(subname, sub_counter, width, height, stride, image, image_size);
       }
 
+      // for 4.x version use dark text on light background.
+      bool inverting_images = true;
+
+      if (inverting_images) {
+        int size_r = width * height;
+        unsigned char* image_rev = new unsigned char[size_r];
+        for (int i = 0; i < size_r; i++)
+        {
+            int val = static_cast<int>(image[i]);
+            unsigned char cz = (255 -  val);
+            image_rev[i] = cz;
+        }
+
+        image = image_rev;
+      }
+
 #ifdef CONFIG_TESSERACT_NAMESPACE
       char *text = tess_base_api.TesseractRect(image, 1, stride, 0, 0, width, height);
 #else
